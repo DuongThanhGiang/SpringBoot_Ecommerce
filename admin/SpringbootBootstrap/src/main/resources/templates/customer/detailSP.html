@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="manifest" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="mask-icon" th:href="@{/fe/images/icons/KF.png}" color="#666666">
+    <link rel="shortcut icon" th:href="@{/fe/images/icons/KF.png}">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" th:href="@{/fe/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/fe/css/plugins/owl-carousel/owl.carousel.css}">
+    <link rel="stylesheet" th:href="@{/fe/css/plugins/magnific-popup/magnific-popup.css}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" th:href="@{/fe/css/style.css}">
+    <link rel="stylesheet" th:href="@{/fe/css/demos/demo-12.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/spctonl.js}"></script>
+
+
+
+</head>
+
+<body>
+<div class="page-wrapper">
+    <main class="main" layout:fragment="customer">
+        <div class="page-content">
+            <div class="container">
+                <div class="product-details-top mb-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product-gallery product-gallery-vertical">
+                                <div class="row">
+                                    <figure class="product-main-image">
+                                        <div id="carouselExampleFade" class="carousel slide carousel-fade">
+                                            <div class="carousel-indicators">
+                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                            </div>
+                                            <div class="carousel-inner">
+
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+
+
+                                    </figure>
+                                    <input id="idSP" th:value="${idSP}" hidden>
+                                    <div id="product-zoom-gallery" class="product-image-gallery">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <form id="formAddGH">
+                                <div class="product-details product-details-centered">
+                                    <h1 id="nameSP" class="product-title"></h1>
+                                    <input type="hidden" id="idSPCT">
+                                    <div id="giaSP" class="product-price">
+
+                                    </div>
+
+                                    <div id="danhMuc_thuongHieu" class="product-content">
+
+                                    </div>
+                                    <div id="slTon" class="product-content">
+
+                                    </div>
+                                    <div class="details-filter-row details-row-size">
+                                        <label>Chọn màu:</label>
+
+                                        <div id="msSP" class="product-nav product-nav-dots">
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="details-filter-row details-row-size">
+                                        <label for="sizeSP">Size:</label>
+                                        <div class="select-custom">
+                                            <select name="size" id="sizeSP" class="form-control">
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="product-details-action">
+                                        <div class="details-action-col">
+                                            <div class="product-details-quantity">
+                                                <input type="number" id="qty" class="form-control" value="1" min="1"
+                                                       step="1" data-decimals="0" required>
+                                            </div>
+
+                                            <button type="submit" class="btn-product btn-add-cart"><span>Thêm vào giỏ hàng</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+<!-- Plugins JS File -->
+<script th:src="@{/fe/js/jquery.min.js}"></script>
+<script th:src="@{/fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{/fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/fe/js/superfish.min.js}"></script>
+<script th:src="@{/fe/js/owl.carousel.min.js}"></script>
+<script th:src="@{/fe/js/bootstrap-input-spinner.js}"></script>
+<script th:src="@{/fe/js/jquery.magnific-popup.min.js}"></script>
+
+<!-- Main JS File -->
+<script th:src="@{/fe/js/main.js}"></script>
+<script th:src="@{/fe/js/demos/demo-12.js}"></script>
+</body>
+</html>

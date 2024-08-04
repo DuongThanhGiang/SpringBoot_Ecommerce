@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thống kê</title>
+    <script th:src="@{/js/thanh_toan.js}"></script>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+<div class="page-title">
+    <h3>Thống Kê</h3>
+<!--    <p class="text-subtitle text-muted">A good dashboard to display your statistics</p>-->
+</div>
+<section class="section">
+<!-- Tất cả Thông Số  -->
+    <div class=" row justify-content-center m-0">
+        <div class="card shadow-lg rounded-4">
+            <div class="d-flex m-2">
+                <div class="col-3 col-sm-3 d-flex align-items-center">
+                        <b>Bộ Lọc</b>
+                </div>
+                <form class="form-group col-9 col-sm-9 align-items-center m-2 d-flex" id="filter" th:action="@{/home/filter}" method="get">
+<!--                    <div >-->
+                        <label class="form-control mb-0 mx-1" style="width: 8%;">Theo:</label>
+                        <select class="form-select me-5" name="thoiGian" id="thoiGian" style="width: 15%;" th:value="${thoiGian}">
+                            <option value="">-- Thời Gian --</option>
+                            <option value="1">Ngày</option>
+                            <option value="2">Tháng</option>
+                            <option value="3">Năm</option>
+                        </select>
+                        <div class="form-group d-flex align-items-center mb-0 ms-auto" style="width: 60%;">
+                            <label class="form-control mb-0 mx-2" style="width: 10%;">Từ:</label>
+                            <input class="form-control mx-2" type="date" name="tuNgay" id="tuNgay">
+
+                            <label class="form-control mb-0 mx-2" style="width: 5%;">-</label>
+                            <input class="form-control mx-2" type="date" name="denNgay" id="denNgay">
+                        </div>
+                        <div class="d-flex">
+                            <button class="btn btn-success me-2" type="submit">OK</button>
+                            <button class="btn btn-danger" type="reset">CLEAR</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 col-sm-6">
+            <div class="card me-2 shadow-lg rounded-4">
+                <div class="card-header">
+                    <h5 class="card-title text-center text-align-center" th:text="${title}"></h5>
+                </div>
+                <div class="card-body rounded-4 px-5 py-3 bg-light">
+                    <div class="form-group">
+                        <div class="form-label">
+                            <label>Số Đơn Đặt Hàng:</label>
+                            <span th:text="${soDon}"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">
+                            <label>Sản Phẩm Đã Bán:</label>
+                            <span th:text="${sanPhamDaBan}"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">
+                            <label>Doanh Thu:</label>
+                            <span th:text="${formatHelper.formatCurrency(doanhThu)}+' VNĐ'"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" hidden>
+                        <div class="form-label">
+                            <label for="">Lợi Nhuận:</label>
+                            <span>10.000.000 VNĐ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-sm-6">
+            <div class="card ms-2 shadow-lg rounded-4">
+                <div class="card-header">
+                    <h5 class="card-title text-center" th:text="${ssTitle}"></h5>
+                </div>
+                <div class="card-body rounded-4 px-5 py-3 bg-light">
+                    <div class="form-group">
+                        <div class="form-label">
+                            <label for="">Số Đơn Đặt Hàng:</label>
+                            <span th:text="(${ssSoDon} >= 0 ? '+ ' : ' ') + ${ssSoDon}"></span>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">
+                            <label>Sản Phẩm Đã Bán:</label>
+                            <span th:text="(${ssSanPhamDaBan} >= 0 ? '+ ' : ' ') + ${ssSanPhamDaBan}"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">
+                            <label>Doanh Thu:</label>
+                            <span th:text="(${ssDoanhThu} >= 0 ? '+' : '') + ${formatHelper.formatCurrency(ssDoanhThu)} + ' VNĐ'"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" hidden>
+                        <div class="form-label">
+                            <label for="">Lợi Nhuận:</label>
+                            <span>10.000.000 VNĐ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center m-0">
+        <div class="card shadow-lg rounded-4 p-0">
+            <div class="card-header">
+                <h5 class="card-title text-center text-align-center" th:text="${titleSoDon}"></h5>
+            </div>
+            <div class="card-body px-5 py-3 bg-light rounded-4">
+                <canvas id="myChart1" style="width:100%;max-width:100%"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center m-0">
+        <div class="card shadow-lg rounded-4 p-0">
+            <div class="card-header">
+                <h5 class="card-title text-center text-align-center" th:text="${titleSoSanPham}"></h5>
+            </div>
+            <div class="card-body px-5 py-3 bg-light rounded-4">
+                <canvas id="myChart2" style="width:100%;max-width:100%"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center m-0">
+        <div class="card shadow-lg rounded-4 p-0">
+            <div class="card-header">
+                <h5 class="card-title text-center text-align-center" th:text="${titleDoanhThu}">
+                </h5>
+            </div>
+            <div class="card-body px-5 py-3 bg-light rounded-4">
+                <canvas id="myChart3" style="width:100%;max-width:100%"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+</body>
+
+</html>

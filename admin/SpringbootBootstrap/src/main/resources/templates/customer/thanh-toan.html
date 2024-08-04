@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+    <script th:src="@{/js/thanh_toan.js}"></script>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <main class="main" layout:fragment="customer">
+        <div class="page-content">
+            <div class="checkout">
+                <div class="container">
+                    <div class="checkout-discount">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form id="formThanhToan" th:action="@{/thanh_toan/create_hoa_don}" method="POST">
+                                <h2 class="checkout-title">Chi tiết thanh toán</h2>
+
+                                <div class="row">
+                                    <div class="col-sm-6" >
+                                        <label>Tên</label>
+                                        <input type="text" th:value="${kh.ten}" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-6" >
+                                        <label>Số điện thoại</label>
+                                        <input type="text" name="sdt" id="sdt" class="form-control" >
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Thị trấn / Thành phố *</label> <br/>
+                                        <select class="form-control" name="thanhPho" id="thanhPho"></select>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>Quận / Huyện *</label>
+                                        <select class="form-control" name="quanHuyen" id="quanHuyen"></select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Phường / Xã *</label>
+                                        <select class="form-control" name="phuongXa" id="phuongXa"></select>
+                                    </div>
+
+                                </div>
+                                <label>Địa chỉ nhà *</label>
+                                <input type="text" name="diaChi" id="diaChi" class="form-control" placeholder="Số nhà và tên đường" required>
+                                <label>Ghi chú đơn hàng (tùy chọn)</label>
+                                <textarea name="ghiChu" class="form-control" cols="30" rows="4" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như ghi chú đặc biệt khi giao hàng..."></textarea>
+                                <input id="voucher-in-form" name="voucher" hidden>
+                            </form>
+                        </div>
+                        <aside class="col-lg-6">
+                            <div class="summary">
+                                <h3 class="summary-title">Đơn hàng của bạn</h3>
+
+                                <table class="table table-summary">
+                                    <thead>
+                                    <tr>
+                                        <th>Sản phẩm</th>
+                                        <th>Số Lượng</th>
+                                        <th>Giá</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr th:each="gh:${listGioHangCt}">
+                                        <td class="row">
+                                            <div class="d-inline-block">
+                                                <img style="max-height: 70px;max-width: 70px;min-height: 70px;min-width: 70px"
+                                                     th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[gh.sanPhamCT.sanPham.id].data)}"
+                                                     alt="Product image">
+                                            </div>
+                                            <div class="d-inline-block" style="padding-left: 10px">
+
+                                                <div><span th:text="${gh.sanPhamCT.sanPham.ten}"></span></div>
+                                                <div><span th:text="'size:'+${gh.sanPhamCT.kichThuoc.ten}"></span></div>
+                                                <div>
+                                                    <p>color:
+                                                        <span class="badge "
+                                                              th:style="'background-color:'+${gh.sanPhamCT.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td th:text="${gh.soLuong}"></td>
+                                        <td th:text="${gh!=null?formatHelper.formatCurrency(gh.soLuong*gh.sanPhamCT.gia):''}+' VNĐ'"></td>
+                                    </tr>
+                                    <tr class="summary-total">
+                                        <td>Tổng Giá Trị Đơn Hàng:</td>
+                                        <td th:id="gia" th:text="${giohang?.thanhTien}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="voucher" class="form-control" placeholder="Chọn Voucher"></td>
+                                        <td class="pl-5"><btn class="text-primary btn btn-outline-success form-control" data-bs-toggle="modal" data-bs-target="#selectVoucherModal" type="button">Chọn Voucher</btn></td>
+                                    </tr>
+                                    <tr class="summary-total">
+                                        <td>Phiếu Giảm Giá:</td>
+                                        <td th:id="giamGia"></td>
+                                    </tr>
+                                    <tr class="summary-total">
+                                        <td>Thành tiền:</td>
+                                        <td th:id="thanhTien" th:text="${giohang?.thanhTien}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button type="submit" id="thanhToan" class="btn btn-outline-primary-2 btn-order btn-block">
+                                    <span class="btn-text">Đặt hàng</span>
+                                    <span class="btn-hover-text">Tiến hành kiểm tra</span>
+                                </button>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        modalVoucher-->
+        <div class="modal fade" id="selectVoucherModal" tabindex="-1"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title m-auto" id="exampleModalLabel">Voucher</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-end" style="width: 100%">
+                            <input type="text" th:id="searchInputVoucher" placeholder="Tìm Kiếm">
+                            <button class="btn btn-primary mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+                        </div>
+                        <form id="voucherForm" class="pl-5"
+                              method="post">
+                            <div th:each="x : ${listVoucher}" th:id="'voucherCard-'+${x.ma}"
+                                 th:class="card-voucher">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-1 ipRadio" type="radio"
+                                           name="maVoucher"
+                                           th:id="${x.id_pgg}" th:value="${x.ma}">
+                                    <label class="form-check-label align-content-center" th:for="${x.id_pgg}"
+                                           style="width: 100%;">
+                                        <div class="card d-flex my-1">
+                                            <div class="pt-2 card-body d-flex">
+                                                <span th:text="${x.ma}" class="modal-maVoucher col-2 col-sm-2"></span>
+                                                <span th:text="${x.id_pgg}"
+                                                      hidden></span>
+                                                <span th:text="${x.ten}"
+                                                      class="modal-tenVoucher col-4 col-sm-4"></span>
+                                                <span class="col-6 col-sm-6"
+                                                      th:text="${x.moTa}"></span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <!--                                            <input name="voucher" th:value="" hidden>-->
+                                </div>
+                            </div>
+                            <button type="button" class="mt-1 mb-1 btn btn-primary d-block m-auto"
+                                    th:id="saveChangesBtn"
+                                    data-bs-dismiss="modal">
+                                Save Changes
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

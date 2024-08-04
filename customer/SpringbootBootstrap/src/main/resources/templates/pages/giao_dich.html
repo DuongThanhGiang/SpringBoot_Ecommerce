@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/thanh_toan.js}"></script>
+    <style type="text/css">
+        .cam {
+            width: 250px;
+            max-width: 500px;
+            margin: 5px;
+        }
+
+        .section {
+            background-color: #ffffff;
+            padding: 15px 15px;
+            border: 1.5px solid #b2b2b2;
+            border-radius: 0.25em;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        #my-qr-reader, #my-qr-reader-2, #my-qr-reader-3, #my-qr-reader-4, #my-qr-reader-5, #my-qr-reader-6 {
+            padding: 1px !important;
+            border: 1.5px solid #b2b2b2 !important;
+            border-radius: 8px;
+        }
+
+        #my-qr-reader img[alt="Info icon"], #my-qr-reader-2 img[alt="Info icon"], #my-qr-reader-3 img[alt="Info icon"], #my-qr-reader-4 img[alt="Info icon"], #my-qr-reader-5 img[alt="Info icon"], #my-qr-reader-6 img[alt="Info icon"] {
+            display: none;
+        }
+
+        #my-qr-reader img[alt="Camera based scan"], #my-qr-reader-2 img[alt="Camera based scan"], #my-qr-reader-3 img[alt="Camera based scan"], #my-qr-reader-4 img[alt="Camera based scan"], #my-qr-reader-5 img[alt="Camera based scan"], #my-qr-reader-6 img[alt="Camera based scan"] {
+            width: 100px !important;
+            height: 100px !important;
+        }
+
+        .cam button {
+            padding: 5px 10px;
+            border: 1px solid #b2b2b2;
+            outline: none;
+            border-radius: 0.25em;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            background-color: #008000ad;
+            transition: 0.3s background-color;
+        }
+
+        .cam button:hover {
+            background-color: #008000;
+        }
+
+        #html5-qrcode-anchor-scan-type-change {
+            text-decoration: none !important;
+            color: #1d9bf0;
+        }
+
+        video {
+            width: 100% !important;
+            border: 1px solid #b2b2b2 !important;
+            border-radius: 0.25em;
+        }
+
+        /* Modal Content/Box */
+        .modal-contentCam {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <script
+            src="https://unpkg.com/html5-qrcode">
+    </script>
+    <script th:src="@{/js/cam.js}"></script>
+</head>
+<body>
+
+<div class="main-content container-fluid" layout:fragment="content">
+
+
+    <div class="container mt-5 row">
+        <div class="col-md-10">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button th:each="hd,i : ${listHD}" th:data-hd-ma="${hd.ma}"
+                            th:class="${i.index == 0} ? 'nav-link active' : 'nav-link'"
+                            th:id="'#'+${hd.ma}" data-bs-toggle="tab" th:data-bs-target="'#'+${hd.ma}" type="button"
+                            role="tab" th:aria-controls="'#'+${hd.ma}" aria-selected="true"><span
+                            th:text="${hd.ma}"></span><a th:href="@{giao_dich/deleteTab/(id=${hd.idHoaDon})}"
+                                                         class="close-tab"><i
+                            data-feather="x-circle"></i></a></button>
+
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <form th:action="@{giao_dich/add_tab}" th:object="${hda}" method="post" id="formAddTab">
+                <button type="submit" id="add-tab" class="btn btn-outline-warning ml-auto">Thêm hóa đơn</button>
+            </form>
+        </div>
+    </div>
+    <div class="tab-content" id="myTabContent" style="padding: 20px;background-color: white">
+
+        <div th:each="hd,i : ${listHD}" class="tab-pane fade " th:classappend="${i.index == 0} ? 'show active' : ''"
+             th:id="${hd.ma}" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row mb-4">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class=" row" style="padding-bottom:20px ">
+                            <div class="col-md-6" style="margin: 10px;min-height: 300px">
+                                <div class="cam">
+                                    <p style="text-align: center;text-transform: uppercase;">SCAN QR CODE</p>
+                                    <div class="section">
+                                        <div th:id="'my-qr-reader'+${hd.ma}"></div>
+                                    </div>
+                                </div>
+                                <div th:id="'modalResultQr' +${hd.ma}" class="modal"
+                                     style="width:500px;left: calc(50% - 250px)">
+                                    <div class="modal-contentCam">
+                                        <span class="close">&times;</span>
+                                        <form th:id="'form'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/add}" th:method="post">
+                                            <input th:id="'idhd'+${hd.ma}" type="text" th:value="${hd.idHoaDon}"
+                                                   name="idhd" hidden> <br/>
+                                            <input th:id="'idCTSP'+${hd.ma}" type="text" name="idspct" hidden> <br/>
+                                            <label>Số lượng :</label>
+                                            <input class="form-control" th:id="'soLuong'+${hd.ma}" type="number"
+                                                   name="soLuong"> <br/>
+                                            <span th:id="'soLuongError'+${hd.ma}" style="color: red"></span>
+                                        </form>
+                                        <button class="btn btn-outline-primary" style="float: right"
+                                                th:id="'submitQr'+${hd.ma}">OK
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 row">
+                                <div class="col-md-12" style="text-align: center;height: 50px;padding-top: 20px">
+                                    <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            th:data-bs-target="'#spct'+${hd.ma}">Tìm
+                                        kiếm
+                                    </button>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <form th:id="'formSearchMaSPCT'+${hd.ma}">
+                                        <input style="width: 140px;float: left;margin-right: 5px" class="form-control"
+                                               th:id="'maSPCTSearch'+${hd.ma}" placeholder="Nhập mã CTSP">
+                                        <button type="submit" data-bs-toggle="modal" class="btn btn-outline-primary"><i
+                                                data-feather="search"></i>
+                                        </button>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div style="float: left"><h4 class="card-title">Giỏ hàng</h4></div>
+                        </div>
+                        <div class="card-body px-0 pb-0">
+                            <div class="table-responsive ">
+                                <table class='table table mb-0'>
+                                    <thead>
+                                    <tr>
+                                        <th>Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn Giá</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="hdct:${hd?.listhdct}">
+                                        <form th:id="${hdct.idHoaDonChiTiet}" th:class="'formGioHang'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/update/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"
+                                              method="post">
+                                            <td class="row">
+                                                <div class="col-md-5">
+                                                    <img style="max-height: 70px;max-width: 60px;min-height: 70px;min-width: 60px"
+                                                         th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[hdct.sanPhamChiTiet.sanPham.id].data)}"
+                                                         alt="Product image">
+                                                </div>
+                                                <div class="col-md-7" style="padding-left: 10px">
+                                                    <div><span th:text="${hdct.sanPhamChiTiet.sanPham.ten}"></span></div>
+                                                    <div><span th:text="'size:'+${hdct.sanPhamChiTiet.kichThuoc.ten}"></span></div>
+                                                    <div>
+                                                        <p>color:
+                                                            <span class="badge "
+                                                                  th:style="'background-color:'+${hdct.sanPhamChiTiet.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+                                                           </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input th:id="'soLuong'+${hdct.idHoaDonChiTiet}"
+                                                       th:value="${hdct.soLuong}"
+                                                       th:max="${hdct.sanPhamChiTiet.sl+hdct.soLuong}"
+                                                       class="form-control" type="number"
+                                                       onchange="checkInput(this)"
+                                                       name="soLuong" style="width: 70px"></td>
+                                            <td th:text="${formatHelper.formatCurrency(hdct.gia*hdct.soLuong)}+' VNĐ'"></td>
+                                            <td>
+                                                <button th:id="'btn'+${hdct.idHoaDonChiTiet}" class="btn btn-outline-primary d-inline-block" type="submit"><i
+                                                        data-feather="edit-2"></i></button>
+                                                <a class="btn btn-outline-danger d-inline-block" th:onclick="return confirm('Bạn có muốn xoá sản phẩm')" type="button"
+                                                   th:href="@{/hoa_don_chi_tiet/delete/{idhdct}(idhdct=${hdct.idHoaDonChiTiet})}"><i
+                                                        data-feather="trash-2"></i></a>
+                                            </td>
+                                        </form>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div style="float: left"><h4 class="card-title">Thông tin đơn hàng</h4></div>
+
+
+                        </div>
+                        <div class="card-body px-0 pb-0">
+                            <form style="padding-top: 20px;padding-bottom: 20px" class="row">
+                                <div class="col-md-6">
+
+                                    <div class="col-form-label" style="float:left;margin-left: 20px;min-height: 70px">
+                                        <b>Khách hàng</b>
+                                    </div>
+                                    <div style="margin-left: 20px;min-height: 70px">
+                                        <input class="form-control" style="width: 200px;height: 38px"
+                                               placeholder="SDT Khách Hàng" th:id="'khachHangInput'+${hd.ma}"
+                                               name="sdtKhachHang" th:value="${hd?.khachHang?.sdt}" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-form-label" style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <div >
+                                            <input class="form-control" type="text"
+                                                   th:value="${hd.khachHang != null?hd.khachHang.ten:'Khách lẻ'}"
+                                                   readonly>
+                                        </div>
+
+                                    </div>
+                                    <div style="margin-left: 20px;min-height: 70px">
+                                        <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal"
+                                                th:data-bs-target="'#selectKhachHangModal'+${hd.ma}">
+                                            Chọn khách hàng
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
+                                        <b>Nhân viên</b>
+                                    </div>
+                                    <div style="margin-left: 20px;min-height: 70px">
+                                        <input class="form-control"
+                                               style="width: 200px;height: 38px"
+                                               placeholder="Voucher" th:id="'voucherInput'+${hd.ma}" name="maVoucher"
+                                               th:value="${hd?.phieuGiamGia?.ma}"
+                                               readonly>
+                                    </div>
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
+                                        <b>Tiền hàng</b>
+                                    </div>
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
+                                        <b>Giảm giá</b>
+                                    </div>
+                                    <div class="col-form-label" style="margin-left: 20px;min-height: 70px">
+                                        <b>Tổng tiền</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <input class="form-control" type="text" th:value="${namenv}" readonly>
+                                    </div>
+
+                                    <div style="margin-left: 20px;min-height: 70px">
+                                        <button class="btn btn-outline-primary" type="button"
+                                                data-bs-toggle="modal"
+                                                th:data-bs-target="'#selectVoucherModal'+${hd.ma}" hidden>Chọn voucher
+                                        </button>
+                                    </div>
+
+
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <input class="form-control" type="text" th:value="${formatHelper.formatCurrency(hd.gia)}" readonly>
+                                    </div>
+
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <div>
+                                            <input class="form-control" type="text"
+                                                   th:value="${formatHelper.formatCurrency(hd.gia-hd.thanhTien)}"
+                                                   readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-form-label"
+                                         style="margin-left: 20%;margin-right: 20px;min-height: 70px">
+                                        <div >
+                                            <input style="color: red" type="text" class="form-control"
+                                                   th:value="${formatHelper.formatCurrency(hd.thanhTien)}"
+                                                   readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="text-align: center ">
+                                        <a th:id="'btnTTHD'+${hd.ma}" th:href="@{/hoa_don/thanh_toan/{idhd}(idhd=${hd.idHoaDon})}" class="btn btn-outline-warning" >
+                                            Xác nhận thanh toán
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--    modalSPCT-->
+            <div class="modalTableSPCT">
+                <div class="modal fade" th:id="'spct'+${hd.ma}" tabindex="-1" aria-labelledby="label"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 style="color: black" class="modal-title fs-5" id="label"><i
+                                        class="fa-solid fa-circle-info"></i>
+                                    Chọn sản phẩm</h1>
+                                <button type="button" class="btn-close " data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-4">
+                                    <div class="col-md-12 ">
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h4 class="card-title">Bộ lọc</h4>
+
+                                            </div>
+                                            <div class="card-body px-0 pb-0">
+                                                <form class="row" th:id="'formFilter'+${hd.ma}"
+                                                      style="padding-top: 20px;padding-bottom: 20px;text-align: center">
+
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Kích thước:</label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'kichThuocSearch'+${hd.ma}"
+                                                                        name="kichThuocSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="kt :${listKT}" th:value="${kt.ten}"
+                                                                            th:text="${kt.ten}"></option>
+
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Màu sắc:</label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'mauSacSearch'+${hd.ma}"
+                                                                        name="mauSacSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="ms :${listMS}" th:value="${ms.ten}"
+                                                                            th:style="'background-color:'+${ms.ten}"> </option>
+
+
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Danh mục:</label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'danhMucSearch'+${hd.ma}"
+                                                                        name="danhMucSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="dm :${listDM}" th:value="${dm.ten}"
+                                                                            th:text="${dm.ten}"></option>
+
+
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3" style="text-align: center;height: 70px">
+                                                            <div style="display: inline-flex">
+                                                                <label class="col-form-label">Thương hiệu: </label>
+                                                                <select class="form-select" style="width: 150px;height: 38px;margin-left: 5px"
+                                                                        th:id="'thuongHieuSearch'+${hd.ma}"
+                                                                        name="thuongHieuSearch">
+                                                                    <option value="">Tất cả</option>
+                                                                    <option th:each="th :${listTH}" th:value="${th.ten}"
+                                                                            th:text="${th.ten}"></option>
+
+
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+
+                                                    <div class="col-md-12" style="padding-top: 20px">
+                                                        <button type="submit" class="btn btn-outline-primary">Lọc
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <div style="float: left"><h4 class="card-title">Danh sách sản phẩm chi
+                                                    tiết</h4>
+                                                </div>
+
+                                                <div style="float: right;margin-right: 30px">
+
+                                                    <form th:id="'formSearch'+${hd.ma}">
+                                                        <div style="float: right;margin-left: 20px">
+                                                            <button class="btn btn-outline-primary" type="submit">Tìm
+                                                                kiếm
+                                                            </button>
+
+                                                        </div>
+                                                        <div style="float: right"><input th:id="'keyword'+${hd.ma}"
+                                                                                         class="form-control"
+                                                                                         style="width: 200px;height: 38px"
+                                                                                         placeholder="Tìm kiếm">
+                                                        </div>
+
+
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                            <div class="card-body px-0 pb-0">
+                                                <div class="table-responsive ">
+                                                    <table class='table table mb-0 tbl1' th:id="'table1'+${hd.ma}">
+                                                        <thead>
+                                                        <tr>
+
+                                                            <th>STT</th>
+                                                            <th>Mã SPCT</th>
+                                                            <th>Danh mục</th>
+                                                            <th>Thương hiệu</th>
+                                                            <th>Kích thước</th>
+                                                            <th>Màu sắc</th>
+                                                            <th>Số lượng</th>
+                                                            <th>Giá bán</th>
+                                                            <th>Thao tác</th>
+
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+                                                        </tbody>
+                                                    </table>
+                                                    <div style="float: right;margin: 20px">
+                                                        <nav aria-label="Page navigation example">
+                                                            <ul class="pagination" th:id="'page'+${hd.ma}">
+
+                                                            </ul>
+                                                        </nav>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--    //modalAddGioHang-->
+
+            <div class="modal fade" th:id="'addGH'+${hd.ma}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
+                                    class="fa-solid fa-circle-info"></i>
+                                Thông tin sản phẩm</h1>
+                            <button type="button" class="btn-close cBtn" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <form th:id="'formAddGH'+${hd.ma}" th:action="@{/hoa_don_chi_tiet/add}" method="post">
+                            <div class="modal-body">
+
+                                <table class='table table mb-0'>
+                                    <thead>
+                                    <tr>
+                                        <th>Mã SPCT</th>
+                                        <th>Size</th>
+                                        <th>Màu sắc</th>
+                                        <th>Số lượng</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+
+                                        <td><input type="text" th:id="'idSPCT'+${hd.ma}" name="idspct" hidden>
+                                            <input type="text" th:id="'idhd'+${hd.ma}" th:value="${hd.idHoaDon}"
+                                                   name="idhd" hidden>
+                                            <span th:id="'maSPCT'+${hd.ma}"></span></td>
+                                        <td><span th:id="'ktSPCT'+${hd.ma}"></span></td>
+                                        <td><span class="badge" th:id="'msSPCT'+${hd.ma}"> </span></td>
+                                        <td><input th:id="'slGH'+${hd.ma}" name="soLuong" th:class="'form-control ' +'slGH'+${hd.ma}"
+                                                   style="width: 70px" type="number"
+                                                   min="1"
+                                                   value="1"/>
+                                        </td>
+                                    </tr>
+
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary cBtn" data-bs-dismiss="modal">
+                                    Hủy
+                                </button>
+                                <button type="submit" class="btn btn-outline-warning">Thêm vào giỏ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!--    //modalChonKhachHang-->
+            <div class="modal fade" th:id="'selectKhachHangModal'+${hd.ma}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabelKH">Khách Hàng</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-end" style="width: 100%">
+                                <input type="text" th:id="'searchInputKhachHang' +${hd.ma}" placeholder="Tìm Kiếm">
+                                <button class="btn btn-primary mx-2"><i data-feather="search"></i></button>
+                            </div>
+                            <form id="khachHangForm" th:action="@{'/giao_dich/add_khachHang_to_hoa_don/'+${hd.idHoaDon}}"
+                                  method="post">
+                                <div th:each="kh : ${listKH}" th:id="'khachHangCard-'+${kh.sdt}"
+                                     th:class="'card-khachHang'+${hd.ma} + ' form-check'"
+                                     th:hidden="${kh.sdt == '0555555555'}">
+                                    <div class="d-flex align-items-center">
+
+                                        <input class="form-check-input me-1" type="radio"
+                                           name="idKhachHang"
+                                           th:id="${kh.idKH}+${hd.ma}" th:value="${kh.idKH}">
+                                        <label class="form-check-label align-content-center" th:for="${kh.idKH}+${hd.ma}"
+                                           style="width: 100%;">
+                                            <div class="card d-flex my-1">
+                                                <div class="card-body d-flex">
+                                                    <span th:text="${kh.idKH}"
+                                                          hidden></span>
+                                                    <span th:text="${kh.ten}"
+                                                      class="modal-tenKhachHang col-4 col-sm-4 align-items-center"></span>
+                                                    <span th:text="${kh.sdt}"
+                                                      class="modal-sdtKhachHang col-4 col-sm-4 align-items-center"></span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" th:id="'saveChangesBtnKH'+${hd.ma}"
+                                        data-bs-dismiss="modal">
+                                    Save Changes
+                                </button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+<!--                            <button type="button" class="btn btn-primary" th:id="'saveChangesBtnKH'+${hd.ma}"-->
+<!--                                    data-bs-dismiss="modal">-->
+<!--                                Save Changes-->
+<!--                            </button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

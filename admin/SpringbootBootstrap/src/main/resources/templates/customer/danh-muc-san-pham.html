@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <main class="main" layout:fragment="customer">
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="toolbox">
+                            <div class="toolbox-right">
+                                <div class="toolbox-sort">
+                                    <div class="select-custom">
+                                        <select name="sortby" id="sortby" class="form-control">
+                                            <option value="popularity" selected="selected">Phổ biến nhất</option>
+                                            <option value="rating">Đánh giá cao nhất</option>
+                                            <option value="date">Mới nhất</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="products mb-3">
+                            <div class="row justify-content-center">
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-new">New</span>
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product1-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày Derby tăng chiều cao đẹp sang trọng GCLA851-20-XA</a></h3>
+                                            <div class="product-price">
+                                                2,200,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-primary">Sale</span>
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product2-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày lười nam da bò mặt da cá đuối đẹp GNLAJD6611-1028-D</a></h3>
+                                            <div class="old-price">
+                                                2,100,000 ₫
+                                            </div>
+                                            <div class="product-price">
+                                                1,900,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product3-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày tây nam Spectator Oxford da bò GNLAA176-R8-V</a></h3>
+                                            <div class="product-price">
+                                                1,990,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product4-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày lười nam tăng chiều cao Penny Loafer GCLA926-6-N</a></h3>
+                                            <div class="product-price">
+                                                2,150,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-new">New</span>
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product5-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày da nam Penny Loafers công sở GNLA1268-NDO</a></h3>
+                                            <div class="product-price">
+                                                1,800,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product6-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày Boots nam da bò cổ cao phối màu GNLA36700-R58-XN</a></h3>
+                                            <div class="product-price">
+                                                2,350,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-new">New</span>
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product1-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày Derby tăng chiều cao đẹp sang trọng GCLA851-20-XA</a></h3>
+                                            <div class="product-price">
+                                                2,200,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <span class="product-label label-primary">Sale</span>
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product2-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày lười nam da bò mặt da cá đuối đẹp GNLAJD6611-1028-D</a></h3>
+                                            <div class="old-price">
+                                                2,100,000 ₫
+                                            </div>
+                                            <div class="product-price">
+                                                1,900,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 col-lg-4">
+                                    <div class="product product-7 text-center">
+                                        <figure class="product-media">
+                                            <a href="/shop/detailSP">
+                                                <img th:src="@{/fe/images/demos/demo-12/products/product3-1.jpg}" alt="Product image" class="product-image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></a>
+                                            </div>
+                                        </figure>
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="/shop/detailSP">Giày tây nam Spectator Oxford da bò GNLAA176-R8-V</a></h3>
+                                            <div class="product-price">
+                                                1,990,000 ₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                    </a>
+                                </li>
+                                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item-total">of 6</li>
+                                <li class="page-item">
+                                    <a class="page-link page-link-next" href="#" aria-label="Next">
+                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <aside class="col-lg-3 order-lg-first">
+                        <div class="sidebar sidebar-shop">
+                            <div class="widget widget-clean">
+                                <label>Filters:</label>
+                                <a href="#" class="sidebar-filter-clear">Clean All</a>
+                            </div>
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
+                                        SIZE
+                                    </a>
+                                </h3>
+
+                                <div class="collapse show" id="widget-2">
+                                    <div class="widget-body">
+                                        <div class="filter-items">
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="size-1">
+                                                    <label class="custom-control-label" for="size-1">XS</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="size-2">
+                                                    <label class="custom-control-label" for="size-2">S</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" checked id="size-3">
+                                                    <label class="custom-control-label" for="size-3">M</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" checked id="size-4">
+                                                    <label class="custom-control-label" for="size-4">L</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="size-5">
+                                                    <label class="custom-control-label" for="size-5">XL</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="size-6">
+                                                    <label class="custom-control-label" for="size-6">XXL</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true" aria-controls="widget-3">
+                                        MÀU SẮC
+                                    </a>
+                                </h3>
+
+                                <div class="collapse show" id="widget-3">
+                                    <div class="widget-body">
+                                        <div class="filter-colors">
+                                            <a href="#" style="background: #b87145;"><span class="sr-only">Color Name</span></a>
+                                            <a href="#" style="background: #f0c04a;"><span class="sr-only">Color Name</span></a>
+                                            <a href="#" style="background: #333333;"><span class="sr-only">Color Name</span></a>
+                                            <a href="#" class="selected" style="background: #cc3333;"><span class="sr-only">Color Name</span></a>
+                                            <a href="#" style="background: #3399cc;"><span class="sr-only">Color Name</span></a>
+                                            <a href="#" style="background: #669933;"><span class="sr-only">Color Name</span></a>
+                                            <a href="#" style="background: #f2719c;"><span class="sr-only">Color Name</span></a>
+                                            <a href="#" style="background: #ebebeb;"><span class="sr-only">Color Name</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
+                                        THƯƠNG HIỆU
+                                    </a>
+                                </h3>
+
+                                <div class="collapse show" id="widget-4">
+                                    <div class="widget-body">
+                                        <div class="filter-items">
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="brand-1">
+                                                    <label class="custom-control-label" for="brand-1">Laforce</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="brand-2">
+                                                    <label class="custom-control-label" for="brand-2">Salvatore</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="brand-3">
+                                                    <label class="custom-control-label" for="brand-3">Gucci</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="brand-4">
+                                                    <label class="custom-control-label" for="brand-4">Minichino</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="brand-5">
+                                                    <label class="custom-control-label" for="brand-5">Allen Edmonds</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="brand-6">
+                                                    <label class="custom-control-label" for="brand-6">Elly</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="brand-7">
+                                                    <label class="custom-control-label" for="brand-7">Giorgio Armani</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
+                                        LỌC THEO GIÁ
+                                    </a>
+                                </h3>
+
+                                <div class="collapse show" id="widget-5">
+                                    <div class="widget-body">
+                                        <div class="filter-price">
+                                            <div class="filter-price-text">
+                                                Mức giá:
+                                                <span id="filter-price-range"></span>
+                                            </div>
+
+                                            <div id="price-slider"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

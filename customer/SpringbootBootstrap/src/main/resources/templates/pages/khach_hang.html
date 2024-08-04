@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <div class="page-title">
+        <h3>Khách hàng</h3>
+
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bộ lọc</h4>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form th:action="@{/khach_hang/search}" method="get" style="padding-top: 20px;padding-bottom: 20px">
+                        <div style="text-align: center;height: 70px">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Email khách hàng : </label>
+                                <input name="keyword" class="form-control" style="width: 200px;height: 38px"
+                                       placeholder="Tìm kiếm">
+                            </div>
+                        </div>
+
+                        <div style="text-align: center">
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div><h4 class="card-title">Danh sách khách hàng</h4></div>
+                    <div style="float: right">
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#themNV"><i data-feather="plus-circle"></i></button>
+                    </div>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <table class='table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên</th>
+                                <th>Trạng thái</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="kh,start :${listKH.content}">
+                                <td th:text="${start.index+1}"></td>
+                                <td th:text="${kh.ten}"></td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                               id="flexSwitchCheckDefault" th:checked="${kh.trangThai==1?true:false}">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                    </div>
+                                </td>
+                                <td th:text="${kh.email}">
+                                <td th:text="${kh.sdt}">
+
+                                <td>
+                                    <a th:href="@{khach_hang/viewOne/{id}(id=${kh.idKH})}"
+                                       class="btn btn-outline-primary uBtn">
+                                        <i data-feather="edit"></i></a></a>
+
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div style="float: right">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listKH.number-1}}" class="page-link"> < </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a th:text="${listKH.number+1}" class="page-link"></a>
+
+                                    </li>
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listKH.number+1}}" class="page-link"> > </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="formUpdate">
+        <div class="modal fade" id="suaNV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Sửa khách hàng</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formUpdate" th:action="@{/khach_hang/update}" method="post">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Tên</b></label>
+                                        <input id="tenUpdate" placeholder="tên" type="text" name="ten"
+                                               class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Giới tính </b></label> <br/>
+                                        <input id="gioiTinhUpdate1" type="radio" name="gioiTinh" value="1" class="form-check-input" checked>
+                                        <label class="form-check-label" for="gioiTinhUpdate1">
+                                            Nam
+                                        </label> <br/>
+                                        <input id="gioiTinhUpdate2" type="radio" name="gioiTinh" value="0" class="form-check-input">
+                                        <label class="form-check-label" for="gioiTinhUpdate2">
+                                            Nữ
+                                        </label>
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Ngày sinh </b></label>
+                                        <input id="ngaySinhUpdate" type="date" name="ngaySinh" class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Email </b></label>
+                                        <input id="emailUpdate" placeholder="Email" type="text" name="email"
+                                               class="form-control">
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Số điện thoại </b></label>
+                                        <input id="sdtUpdate" placeholder="Số điện thoại" type="text" name="sdt"
+                                               class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label">Trạng thái</label>
+                                        <div class="form-check form-switch">
+                                            <input name="trangThai" id="trangThaiUpdate" class="form-check-input" type="checkbox" role="switch">
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="idKH" name="id_khach_hang">
+
+                                </div>
+                            </div>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button id="btnFormUpdate" type="button" class="btn btn-primary">Sửa</button>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="formThem">
+        <div class="modal fade" id="themNV" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Thêm khách hàng</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formAdd" th:action="@{/khach_hang/add}" method="post">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Tên </b></label>
+                                        <input id="tenAdd" type="text" name="ten" class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Giới tính </b></label> <br/>
+                                        <input id="gioiTinhAdd1" type="radio" name="gioiTinh" value="1" class="form-check-input" checked>
+                                        <label class="form-check-label" for="gioiTinhAdd1">
+                                            Nam
+                                        </label> <br/>
+                                        <input id="gioiTinhAdd2" type="radio" name="gioiTinh" value="0" class="form-check-input">
+                                        <label class="form-check-label" for="gioiTinhAdd2">
+                                            Nữ
+                                        </label>
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Ngày sinh </b></label>
+                                        <input id="ngaySinhAdd" type="date" name="ngaySinh" class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Email </b></label>
+                                        <input id="emailAdd" type="text" name="email" class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Mật khẩu </b></label>
+                                        <input id="matKhauAdd" type="password" name="matKhau" class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Số điện thoại </b></label>
+                                        <input id="sdtAdd" type="text" name="sdt" class="form-control">
+
+                                    </div>
+
+                                    <input type="hidden">
+
+                                </div>
+                            </div>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button id="btnFormAdd" type="button" class="btn btn-primary">Thêm</button>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.table .uBtn').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $.get(href, function (kt) {
+                    $('.formUpdate #tenUpdate').val(kt.ten);
+                    $('.formUpdate #ngaySinhUpdate').val(kt.ngaySinh);
+                    $('input:radio[name=gioiTinh]').filter(`[value=${kt.gioiTinh}]`).prop('checked', true);
+                    $('.formUpdate #trangThaiUpdate').prop(kt.trangThai==1?"checked":"",true);
+                    $('.formUpdate #emailUpdate').val(kt.email);
+                    $('.formUpdate #sdtUpdate').val(kt.sdt);
+                    $('.formUpdate #idKH').val(kt.idKH);
+                })
+                $('.formUpdate #suaNV').modal('show');
+            })
+        })
+        $('#btnFormUpdate').on("click",function (e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/khach_hang/validateUpdateKhachHang",
+                processData:false,
+                data: JSON.stringify({
+                    ten : $('#tenUpdate').val(),
+                    email : $('#emailUpdate').val(),
+                    ngaySinh:$('#ngaySinhUpdate').val(),
+                    sdt : $('#sdtUpdate').val()
+                }),
+                contentType: "application/json",
+                dataType: "json",
+                success:function (data){
+                    if(data.success){
+                        $('#formUpdate').submit();
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Sửa thành công",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }else {
+                        Swal.fire({
+                            icon:"error",
+                            title:"Error",
+                            text:data.message,
+                        })
+                    }
+                },
+                error:function (e) {
+                    console.log(e);
+                }
+            })
+        })
+        $('#btnFormAdd').on("click",function (event){
+            event.preventDefault();
+            $.ajax({
+                type:"POST",
+                url:"/khach_hang/validateAddKhachHang",
+                processData: false,
+                data:JSON.stringify({
+                    ten : $('#tenAdd').val(),
+                    email : $('#emailAdd').val(),
+                    ngaySinh:$('#ngaySinhAdd').val(),
+                    matKhau : $('#matKhauAdd').val(),
+                    sdt : $('#sdtAdd').val()
+                }),
+                contentType: "application/json",
+                dataType: "json",
+                success:function (data){
+                    if(data.success){
+                        $('#formAdd').submit();
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Thêm thành công",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }else {
+                        Swal.fire({
+                            icon:"error",
+                            title:"Error",
+                            text:data.message,
+                        })
+                    }
+
+                },
+                error : function (e) {
+                    console.log(e);
+                }
+            })
+        })
+    </script>
+</div>
+</body>
+</html>

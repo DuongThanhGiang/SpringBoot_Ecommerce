@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <h1>Tạo Voucher Mới</h1>
+    <div class="container">
+        <form class="mx-auto rounded-lg card p-5"  th:action="@{/voucher/add}" th:object="${voucher}" method="post">
+            <div class="form row py-2">
+                <div class="col-6 col-sm-6 form-group">
+                    <label class="required">Mã Voucher</label>
+                    <input type="text" class="form-control" th:field="*{ma}" placeholder="Mã Voucher">
+                </div>
+                <div class="col-6 col-sm-6 form-group">
+                    <label class="required">Tên Voucher</label>
+                    <input type="text" class="form-control" th:field="*{ten}" placeholder="Tên Voucher">
+                </div>
+            </div>
+            <div class="form row py-2">
+                <div class="col-6 col-sm-6 form-group">
+                    <label class="required">Giá Trị Giảm</label>
+                    <input type="text" class="form-control" th:field="*{giaTriGiam}" placeholder="Giá trị giảm">
+                </div>
+                <div class="col-3 col-sm-3 form-group">
+                    <label class="required">Đơn Vị</label>
+                    <select name="donVi" id="donVi" th:field="*{donVi}" class="form-control">
+                        <option value="1">%</option>
+                        <option value="2">VNĐ</option>
+                    </select>
+                </div>
+                <div class="col-3 col-sm-3 form-group">
+                    <label class="required">Số Lượng</label>
+                    <input type="number" class="form-control" th:field="*{soLuong}" placeholder="Số Lượng">
+                </div>
+            </div>
+            <div class="form row py-2">
+                <div class="col-6 col-sm-6 form-group">
+                    <label class="required">Giá Trị Tối Thiểu</label>
+                    <input type="text" class="form-control" th:field="*{giaTriToiThieu}" placeholder="Giá Trị Tối Thiểu (VNĐ)">
+                </div>
+                <div class="col-6 col-sm-6 form-group">
+                    <label class="required">Giá Trị Giảm Tối Đa</label>
+                    <input type="text" class="form-control" th:field="*{giaTriGiamToiDa}" placeholder="Giá Trị Giảm Tối Đa (VNĐ)">
+                </div>
+            </div>
+            <div class="form row py-2">
+                <div class="col-6 col-sm-6 form-group">
+                    <label class="required">Ngày Bắt Đầu</label>
+                    <input type="date" th:field="*{ngayBatDau}" class="form-control" >
+                </div>
+                <div class="col-6 col-sm-6 form-group">
+                    <label class="required">Ngày Kết Thúc</label>
+                    <input type="date" th:field="*{ngayKetThuc}" class="form-control">
+                </div>
+            </div>
+            <div class="form row py-2">
+                <div class="col-12 col-sm-12 form-group">
+                    <label>Mô Tả</label>
+                    <Textarea type="text" class="form-control" th:field="*{moTa}" placeholder="Mô Tả..."></Textarea>
+                </div>
+            </div>
+            <div class="text-center pt-5 pb-3">
+                <button type="submit" class="btn btn-primary rounded p-3 fs-5">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

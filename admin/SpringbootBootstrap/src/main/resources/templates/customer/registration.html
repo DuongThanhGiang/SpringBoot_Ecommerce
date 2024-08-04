@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/registration.js}"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<!-- Create HTML registration form -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <!-- success message -->
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You've successfully registered
+                    to our awesome app!</div>
+            </div>
+
+            <h1>Registration</h1>
+
+            <form id="formRegis" th:action="@{/khach_hang/registration}" method="post">
+                <div class="form-group">
+                    <label class="control-label" for="ten"> Tên </label>
+                    <input id="ten" class="form-control" name="ten"
+                           required autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="ngaySinh"> Ngày sinh </label> <input
+                        id="ngaySinh" type="date" class="form-control" name="ngaySinh"
+                        required autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="email"> Email </label> <input
+                        id="email" class="form-control" name="email" required
+                        autofocus="autofocus" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><b>Giới tính </b></label> <br/>
+                    <input id="gioiTinh1" type="radio" name="gioiTinh" value="1" class="form-check-input" checked>
+                    <label class="form-check-label" for="gioiTinh1">
+                        Nam
+                    </label> <br/>
+                    <input id="gioiTinh2" type="radio" name="gioiTinh" value="0" class="form-check-input">
+                    <label class="form-check-label" for="gioiTinh2">
+                        Nữ
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="sdt"> sdt </label> <input
+                        id="sdt" class="form-control" name="sdt" required
+                        autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="matKhau"> Mật khẩu</label> <input
+                        id="matKhau" class="form-control" type="password"
+                        name="matKhau" required autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <button id="btnRegis" type="button" class="btn btn-success">Register</button>
+                    <span>Already registered? <a href="/" th:href="@{/login}">Login
+								here</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

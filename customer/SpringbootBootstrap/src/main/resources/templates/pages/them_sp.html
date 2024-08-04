@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/them_sp.js}"></script>
+    <style>
+        .imagePreview {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <form id="formAddSP" style="margin-top: 30px; min-height:650px;background-color:white;border-radius:10px  " enctype="multipart/form-data">
+        <div style="text-align: center;padding-top: 20px;color: #052c65"><h3><b>Thêm sản phẩm</b></h3></div>
+        <div style="padding-left: 10%;padding-right: 10%;padding-top: 20px">
+            <div class="row" style="border-radius: 10px;border: 1px solid #9dc1d3">
+                <div class="col-md-6" style="background: white;margin-left: 15px;padding-bottom: 20px">
+                    <div style="padding-left: 10%;padding-right: 10%">
+
+                        <div class="mb-3" style="padding-top: 20px">
+                            <label class="form-label"><b>Tên sản phẩm</b></label>
+                            <input type="text" id="tenSP" class="form-control">
+
+                        </div>
+
+                        <div class="mb-3 row" style="padding-top: 20px">
+                            <div class="col-md-10">
+                                <label class="form-label"><b>Danh mục</b></label>
+
+                                <select class="form-select" id="danhMuc">
+                                    <div th:each="dm:${listDM}">
+                                        <option th:value="${dm.id}" th:text="${dm.ten}"></option>
+                                    </div>
+
+                                </select>
+
+
+                            </div>
+                            <div class="col-md-2" style="padding-top: 30px">
+                                <a class="btn btn-outline-primary" data-bs-target="#themDM" data-bs-toggle="modal"><i
+                                        data-feather="plus-circle"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-5" style="background: white;padding-bottom: 20px">
+                    <div class="mb-3 " style="padding-top: 20px">
+                        <label class="form-label"><b>Trạng thái</b></label>
+                        <select class="form-select" id="trangThai">
+                            <option value="1">Kinh doanh</option>
+                            <option value="0">Ngừng kinh doanh</option>
+
+                        </select>
+                    </div>
+
+                    <div class="mb-3 row" style="padding-top: 20px">
+                        <div class="col-md-10">
+                            <label class="form-label"><b>Thương hiệu</b></label>
+
+                            <select class="form-select" id="thuongHieu">
+                                <div th:each="th:${listTH}">
+                                    <option th:value="${th.id}" th:text="${th.ten}"></option>
+                                </div>
+                            </select>
+
+                        </div>
+                        <div class="col-md-2" style="padding-top: 30px">
+                            <a class="btn btn-outline-primary" data-bs-target="#themTH" data-bs-toggle="modal"><i
+                                    data-feather="plus-circle"></i></a>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div  class="col-md-11" style="background: white;padding-bottom: 20px;margin-left: 20px;padding-left: 5%">
+                    <label class="form-label"><b>Hình ảnh : </b></label>
+                    <a class="btn btn-outline-warning custom-file-upload"><i data-feather="upload"></i></a>
+                    <input type="file" class="imageInput" name="file"  style="display: none"  multiple>
+                    <div style="border: 2px solid gray; min-height: 125px;margin-top: 10px" class="imagePreviewContainer"></div>
+                </div>
+            </div>
+        </div>
+        <div style="padding-left: 10%;padding-right: 10%;padding-top: 20px">
+            <div class="row" style="border-radius: 10px;border: 1px solid #9dc1d3">
+                <div class="col-md-6" style="background: white;margin-left: 15px;padding-bottom: 20px">
+                    <div style="padding-left: 10%;padding-right: 10%">
+
+                        <div class="mb-3 row" style="padding-top: 20px">
+                            <div class="col-md-8">
+                                <label class="form-label"><b>Kích thước</b></label>
+
+                                <div class="form-control" id="selectedKT" style="min-height:37px; ">
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-4" style="padding-top: 30px">
+                                <a class="btn btn-outline-warning" data-bs-target="#chonKT" data-bs-toggle="modal"><i
+                                        data-feather="navigation-2"></i></a>
+                                <a class="btn btn-outline-primary" data-bs-target="#themKT" data-bs-toggle="modal"><i
+                                        data-feather="plus-circle"></i></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-5" style="background: white;padding-bottom: 20px">
+
+                    <div class="mb-3 row" style="padding-top: 20px">
+                        <div class="col-md-8">
+                            <label class="form-label"><b>Màu sắc</b></label>
+
+                            <div class="form-control" id="selectedMS" style="min-height:37px; " >
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-4" style="padding-top: 30px">
+                            <a class="btn btn-outline-warning" data-bs-target="#chonMS" data-bs-toggle="modal"><i
+                                    data-feather="navigation-2"></i></a>
+                            <a class="btn btn-outline-primary" data-bs-target="#themMS" data-bs-toggle="modal"><i
+                                    data-feather="plus-circle"></i></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div style="padding-top: 30px; padding-bottom:20px;padding-left: 45%;padding-right: 40%">
+
+            <button type="submit" class="btn btn-outline-warning">Tạo</button>
+        </div>
+
+    </form>
+
+    <form th:action="@{them_sp/update}" method="post" th:object="${spctu}" id="updateFormSPCT" style="margin-top: 30px; min-height:500px;background-color:white;border-radius:10px  " enctype="multipart/form-data">
+        <div style="text-align: center;padding-top: 20px;color: #052c65"><h3><b>Sản phẩm chi tiết</b></h3></div>
+        <div style="padding-left: 10%;padding-right: 10%;padding-top: 20px">
+            <table class='table mb-0' id="table1" style="min-height: 300px">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên</th>
+                    <th>Kích thước</th>
+                    <th>Màu sắc</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div style="float: right;margin: 20px">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" id="page">
+
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+        <div style="padding-top: 30px;padding-left: 45%;padding-right: 40%;padding-bottom: 20px">
+
+            <button type="submit" class="btn btn-outline-warning" id="confirmUpdateBtn">Xác nhận sửa</button>
+        </div>
+    </form>
+
+    <div class="formThemDM">
+        <div class="modal fade" id="themDM" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Thêm danh mục</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="fAddDM" th:action="@{them_sp/addDM}" th:object="${dma}" method="post">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Danh mục </b></label>
+                                        <input id="nameDM" name="ten" class="form-control">
+
+                                    </div>
+
+                                    <input type="hidden">
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" id="btnThemDM" class="btn btn-primary">Thêm</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="formThemTH">
+        <div class="modal fade" id="themTH" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelThemTH"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Thêm thương hiệu</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="fAddTH" th:action="@{them_sp/addTH}" th:object="${tha}" method="post">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Thương hiệu </b></label>
+                                        <input id="nameTH" name="ten" class="form-control">
+
+                                    </div>
+                                    <input type="hidden">
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" id="btnThemTH" class="btn btn-primary">Thêm</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="chonKT" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chọn kích thước</h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div th:each="kt:${listKT}"  th:text="${kt.ten}" style="margin-top: 5px;"
+                         th:data-idkt="${kt.id}"
+                         class="itemKT btn btn-outline-primary" th:data-item="${kt.ten}"></div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="chonMS" tabindex="-1" role="dialog" aria-labelledby="labelMS"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelMS">Chọn màu sắc</h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div th:each="ms:${listMS}" th:style="'background-color:' +${ms.ten}+';margin-top: 5px;min-height:38px;min-width:90px'"
+                         class="itemMS btn btn-outline-secondary " th:data-item="${ms.ten}" th:data-idms="${ms.id}"> </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="themKT" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Kích thước </h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="fAddKT" th:action="@{them_sp/addKT}" th:object="${kta}" method="post">
+                    <div class="mb-3" style="padding-top: 20px">
+                        <label class="form-label"><b>Kích thước </b></label>
+                        <input id="tenKT" name="tenKT" class="form-control">
+
+                    </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" id="btnThemKT" class="btn btn-primary">Thêm</button>
+                    </form>
+
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="themMS" tabindex="-1" role="dialog" aria-labelledby="labelMS"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelMS">Thêm màu sắc </h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="fAddMS" th:action="@{them_sp/addMS}" th:object="${msa}" method="post">
+                        <div class="mb-3" style="padding-top: 20px">
+                            <label class="form-label"><b>Màu sắc </b></label>
+                            <input id="tenMS" placeholder="tên" type="color" name="tenMS"
+                                   class="form-control">
+
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" id="btnThemMS" class="btn btn-primary">Thêm</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+</body>
+</html>

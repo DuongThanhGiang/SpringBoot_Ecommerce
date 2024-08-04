@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+</head>
+<body>
+<div class="page-wrapper">
+    <main class="main" layout:fragment="customer">
+        <div class="page-content">
+            <div class="cart">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <table class="table table-cart table-mobile">
+                                <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Giá thành</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng</th>
+                                    <th>Thao tác</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="x : ${listGioHangCT}">
+                                    <form th:action="@{/gio-hang/update-so-luong/{idGhct}(idGhct=${x.idGhct})}"
+                                          method="post" onsubmit="return validateQuantity()">
+                                        <!--                                    <td><input type="checkbox" id="selectedProducts" name="selectedProducts" th:value="${x.sanPhamCT.id}" onchange="updateTotal()"></td>-->
+                                        <td class="product-col">
+                                            <div class="product">
+                                                <figure class="product-media">
+                                                    <a th:href="@{'/spOnl/detailSP/'+${x.sanPhamCT.sanPham.id}}">
+                                                        <input name="idGhct" th:id="idGhct" th:value="${x.idGhct}"
+                                                               hidden>
+                                                            <img th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[x.sanPhamCT.sanPham.id].data)}"
+                                                                 alt="Product image">
+
+                                                    </a>
+                                                </figure>
+                                                <h3 class="product-title">
+                                                    <a th:href="@{'/spOnl/detailSP/'+${x.sanPhamCT.sanPham.id}}"
+                                                       th:text="${x.sanPhamCT.sanPham.ten}"></a>
+                                                    <div>Màu:<span class="badge" th:style="'background-color:'+${x.sanPhamCT.mauSac.ten}+';min-height: 10px;min-width: 50px'" >  </span></div>
+                                                    <div th:text="'Size'+${x.sanPhamCT.kichThuoc.ten}"></div>
+                                                </h3>
+                                            </div>
+                                        </td>
+                                        <td class="price-col" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: red"
+                                            th:text="${formatHelper.formatCurrency(x.sanPhamCT.gia)}+' VNĐ'"></td>
+                                        <td class="quantity-col">
+                                            <div class="cart-product-quantity">
+                                                <input type="number" class="form-control" name="soLuong" th:id="soLuong"
+                                                       th:value="${x.soLuong}"
+                                                       min="1" th:max="${x.sanPhamCT.sl}" step="1" data-decimals="0"
+                                                       required>
+                                                <!--                                                   onchange="updateSoLuong('${x.idGhct}',this.value)>"-->
+
+                                            </div>
+                                        </td>
+                                        <td class="total-col" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" th:id="tong" th:value="${x.donGia}"
+                                            th:text="${formatHelper.formatCurrency(x.donGia)}+' VNĐ'">
+
+                                        </td>
+                                        <td>
+                                            <button style="font-size:20px" class="btn btn-outline-primary" type="submit" th:onclick="return confirm('Bạn có muốn thay đổi số lượng sản phẩm?')">
+                                                &#9998;
+                                            </button>
+                                        </td>
+                                        <td >
+
+
+                                            <a th:onclick="return confirm('Bạn có muốn xoá sản phẩm này?')"
+                                               type="button"
+                                               th:href="@{/gio-hang/delete/{idGhct}(idGhct=${x.idGhct})}">
+                                                <button class="btn-remove" type="button">
+                                                    <i class="icon-close"></i>
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </form>
+                                </tr>
+                                <!--                                <tr>-->
+                                <!--                                    <td></td>-->
+                                <!--                                    <td></td>-->
+                                <!--                                    <td></td>-->
+                                <!--                                    <td class="price-col">Tổng Tiền</td>-->
+                                <!--                                    <td class="total-col" th:text="${gioHang.thanhTien}+' VNĐ'"></td>-->
+                                <!--                                    <td></td>-->
+                                <!--                                </tr>-->
+
+                                </tbody>
+                            </table>
+                            <!--                            <div class="cart-bottom">-->
+                            <!--                                <a th:action="@{/shop/gio-hang/update-so-luong}" method="post" class="btn btn-outline-dark-2"><span>UPDATE GIỎ HÀNG</span><i class="icon-refresh"></i></a>-->
+                            <!--                            </div>-->
+                        </div>
+                        <aside class="col-lg-3">
+                            <div class="summary summary-cart">
+                                <h3 class="summary-title">Tổng Hóa Đơn</h3>
+
+                                <table class="table table-summary">
+                                    <tbody>
+                                    <tr class="summary-subtotal">
+                                        <td>Tổng giá trị:</td>
+                                        <td style="color: red" id="tongHoaDon"
+                                            th:text="${formatHelper.formatCurrency((gioHang?.thanhTien))}+' VNĐ'">0 VNĐ
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <a href="/thanh_toan" class="btn btn-outline-primary-2 btn-order btn-block">THANH
+                                    TOÁN NGAY</a>
+                            </div>
+
+                            <a href="spOnl/allSP" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i
+                                    class="icon-refresh"></i></a>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

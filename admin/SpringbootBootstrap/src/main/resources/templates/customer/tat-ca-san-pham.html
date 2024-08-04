@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+    <script th:src="@{/js/sponl.js}"></script>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <main class="main" layout:fragment="customer">
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="toolbox">
+                            <div class="toolbox-right">
+                                <div class="toolbox-sort">
+                                    <div class="select-custom">
+                                        <select name="sortby" id="sortby" class="form-control">
+                                            <option value="popularity" selected="selected">Phổ biến nhất</option>
+                                            <option value="rating">Đánh giá cao nhất</option>
+                                            <option value="date">Mới nhất</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="products mb-3">
+                            <div class="row justify-content-center" id="ren-derSP">
+
+
+                            </div>
+                        </div>
+
+                        <div style="float: right;margin: 20px">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination" id="page">
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <aside class="col-lg-3 order-lg-first">
+                        <div class="sidebar sidebar-shop">
+                            <div class="widget widget-clean">
+                                <label>Filters:</label>
+                                <a href="#" class="sidebar-filter-clear">Clean All</a>
+                            </div>
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
+                                       aria-controls="widget-1">
+                                        DANH MỤC
+                                    </a>
+                                </h3>
+
+                                <form id="formFtDM">
+                                    <div class="collapse show" id="widget-1">
+                                        <div class="widget-body">
+                                            <div class="filter-items filter-items-count">
+                                                <div th:each="dm,start:${listDM}" class="filter-item">
+                                                    <div class="custom-control custom-checkbox ">
+                                                        <input type="checkbox" th:value="${dm.id}"
+                                                               class="custom-control-input cbDM"
+                                                               th:id="'cat-'+${start.index+1}">
+                                                        <label class="custom-control-label"
+                                                               th:for="'cat-'+${start.index+1}"
+                                                               th:text="${dm.ten}"></label>
+                                                    </div>
+                                                    <span class="item-count">3</span>
+                                                </div>
+                                                <div style="padding-top: 20px;text-align: center" ><button style="min-width: 40px;min-height: 40px;font-size: 20px" class="btn btn-outline-primary" type="submit" > &#128269</button></div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
+                                       aria-controls="widget-2">
+                                        SIZE
+                                    </a>
+                                </h3>
+                                <form id="formFtKT">
+                                    <div class="collapse show" id="widget-2">
+                                        <div class="widget-body">
+                                            <div class="filter-items">
+                                                <div th:each="s,start:${listKT}" class="filter-item">
+                                                    <div class="custom-control custom-checkbox ">
+                                                        <input type="checkbox" th:value="${s.id}"
+                                                               class="custom-control-input cbKT"
+                                                               th:id="'size-'+${start.index+1}">
+                                                        <label class="custom-control-label"
+                                                               th:for="'size-'+${start.index+1}"
+                                                               th:text="${s.ten}"></label>
+                                                    </div>
+                                                </div>
+                                                <div style="padding-top: 20px;text-align: center" ><button style="min-width: 40px;min-height: 40px;font-size: 20px" class="btn btn-outline-primary" type="submit" > &#128269</button></div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true"
+                                       aria-controls="widget-3">
+                                        MÀU SẮC
+                                    </a>
+                                </h3>
+                                <form id="formFtMS">
+                                    <div class="collapse show" id="widget-3">
+                                        <div class="widget-body">
+                                            <div class="filter-colors">
+                                                <a class="aMS" th:each="ms,start :${listMS}"
+                                                   th:style="'background:'+${ms.ten}"><span
+                                                        class="sr-only">Color Name</span><input th:id="${start.index+1}"
+                                                                                                type="checkbox"
+                                                                                                class="cbMS"
+                                                                                                th:value="${ms.id}"
+                                                                                                ></a>
+
+                                            </div>
+                                            <div style="padding-top: 20px;text-align: center" ><button style="min-width: 40px;min-height: 40px;font-size: 20px" class="btn btn-outline-primary" type="submit" > &#128269</button></div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true"
+                                       aria-controls="widget-4">
+                                        THƯƠNG HIỆU
+                                    </a>
+                                </h3>
+                                <form id="formFtTH">
+                                    <div class="collapse show" id="widget-4">
+                                        <div class="widget-body">
+                                            <div class="filter-items">
+                                                <div th:each="th,start:${listTH}">
+                                                    <div class="filter-item">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input cbTH"
+                                                                   th:value="${th.id}"
+                                                                   th:id="'brand-'+${start.index+1}">
+                                                            <label class="custom-control-label"
+                                                                   th:for="'brand-'+${start.index+1}"
+                                                                   th:text="${th.ten}"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="padding-top: 20px;text-align: center" ><button style="min-width: 40px;min-height: 40px;font-size: 20px" class="btn btn-outline-primary" type="submit" > &#128269</button></div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

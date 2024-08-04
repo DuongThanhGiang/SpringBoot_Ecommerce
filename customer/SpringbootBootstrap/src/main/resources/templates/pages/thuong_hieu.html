@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <div class="page-title">
+        <h3>Thương Hiệu</h3>
+
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bộ lọc</h4>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form th:action="@{/thuong_hieu/search}" method="get"
+                          style="padding-top: 20px;padding-bottom: 20px">
+                        <div style="margin-left: 25%;margin-right: 25%;height: 70px">
+                            <div style="float: left;margin-left: 70px">
+                                <select class="form-select" style="width: 150px" name="trangThaiSearch">
+                                    <option value="">Trạng thái</option>
+                                    <option value="1">Đang sử dụng</option>
+                                    <option value="0">Ngừng sử dụng</option>
+
+                                </select>
+                            </div>
+
+                            <div style="float: left;margin-left: 30px">
+                                <input name="keyword" class="form-control" style="width: 200px;height: 38px"
+                                       placeholder="Tìm kiếm">
+
+                            </div>
+                        </div>
+
+                        <div style="margin-left: 40%;margin-right: 40%;">
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+                            <a style="margin-left: 10px" class="btn btn-primary" href="/thuong_hieu">Làm mới</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div><h4 class="card-title">Danh sách thương hiệu</h4></div>
+                    <div style="float: right">
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#themTH"><i data-feather="plus-circle"></i></button>
+                    </div>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <table class='table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="th,start :${listTH.content}">
+                                <td th:text="${start.index+1}"></td>
+                                <td th:text="${th.ma}"></td>
+                                <td th:text="${th.ten}"></td>
+
+                                <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                           id="flexSwitchCheckDefault" th:checked="${th.trangThai}">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                </div>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{thuong_hieu/viewOne/(id=${th.id})}"
+                                       class="btn btn-outline-primary uBtn">
+                                        <i data-feather="edit"></i></a>
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div style="float: right;padding-top: 20px">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listTH.number-1}}" class="page-link"> < </a>
+                                    </li>
+                                    <li th:each="page : ${#numbers.sequence(0, listTH.totalPages - 1)}"
+                                        class="page-item">
+                                        <a th:text="${page + 1}" th:href="@{'?p='+${page}}" class="page-link"></a>
+
+                                    </li>
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listTH.number+1}}" class="page-link"> > </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="formUpdate">
+        <div class="modal fade" id="suaTH" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Sửa kích thước</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/thuong_hieu/update}" th:object="${thu}" method="post">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Mã </b></label>
+                                        <input id="ma" placeholder="Mã" type="text" name="ma" class="form-control" readonly>
+
+                                    </div>
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Tên </b></label>
+                                        <input id="ten" placeholder="tên" type="text" name="ten"
+                                               class="form-control">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Trạng thái</b></label>
+                                        <select id="trangThai" name="trangThai" class="form-select">
+                                            <option value="1">Đang hoạt động</option>
+                                            <option value="0">Ngừng hoạt động</option>
+                                        </select>
+
+                                    </div>
+                                    <input type="hidden" id="id" name="id">
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Sửa</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="formThem">
+            <div class="modal fade" id="themTH" tabindex="-1" aria-labelledby="labelThem" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 style="color: black" class="modal-title fs-5" id="labelThem"><i
+                                    class="fa-solid fa-circle-info"></i>
+                                Thêm kích thước</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/thuong_hieu/add}" th:object="${tha}" method="post">
+
+                                <div class="row">
+                                    <div style="background: white;padding-bottom: 20px">
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Tên </b></label>
+                                            <input name="ten" class="form-control">
+
+                                        </div>
+                                        <div class="mb-3" style="padding-top: 20px">
+                                            <label class="form-label"><b>Trạng thái</b></label>
+                                            <select name="trangThai" class="form-select">
+                                                <option value="1">Đang hoạt động</option>
+                                                <option value="0">Ngừng hoạt động</option>
+                                            </select>
+
+                                        </div>
+                                        <input type="hidden">
+
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Sửa</button>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.table .uBtn').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $.get(href, function (kt) {
+                    $('.formUpdate #ma').val(kt.ma);
+                    $('.formUpdate #ten').val(kt.ten);
+                    $('.formUpdate #trangThai').val(kt.trangThai);
+                    $('.formUpdate #id').val(kt.id);
+                })
+                $('.formUpdate #suaTH').modal('show');
+            })
+        })
+    </script>
+
+</div>
+</body>
+</html>

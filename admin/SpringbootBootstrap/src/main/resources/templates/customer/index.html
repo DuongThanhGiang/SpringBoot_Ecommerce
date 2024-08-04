@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="manifest" th:href="@{/fe/images/icons/KF.png}">
+    <link rel="mask-icon" th:href="@{/fe/images/icons/KF.png}" color="#666666">
+    <link rel="shortcut icon" th:href="@{/fe/images/icons/KF.png}">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" th:href="@{/fe/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/fe/css/plugins/owl-carousel/owl.carousel.css}">
+    <link rel="stylesheet" th:href="@{/fe/css/plugins/magnific-popup/magnific-popup.css}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" th:href="@{/fe/css/style.css}">
+    <link rel="stylesheet" th:href="@{/fe/css/demos/demo-12.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/header.js}"></script>
+    <script th:src="@{/js/trang_chu.js}"></script>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <span th:replace="customer/header :: header"></span>
+    <span th:replace="customer/slide :: slide"></span>
+    <main class="main" layout:fragment="customer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="banner banner-display banner-link-anim">
+                        <a href="#">
+                            <img th:src="@{/fe/images/demos/demo-12/banners/banner-giay.jpg}" alt="Banner">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="banner banner-display banner-link-anim">
+                        <a href="#">
+                            <img th:src="@{/fe/images/category/boxed/danh-muc-giay-tang-chieu-cao-laforce.jpg}"
+                                 alt="Banner">
+                        </a>
+                    </div>
+                    <div class="banner banner-display banner-link-anim">
+                        <a href="#">
+                            <img th:src="@{/fe/images/category/boxed/danh-muc-giay-luoi-nam.jpg}" alt="Banner">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mb-3"></div><!-- End .mb-3 -->
+            </div>
+            <div class="bg-lighter pt-5 pb-5 mb-5">
+                <div class="container">
+                    <div class="heading text-center mb-4">
+                        <h2 class="title">Sản phẩm bán chạy nhất</h2>
+                    </div>
+
+                    <div id="top6SP" class="owl-carousel owl-simple" data-toggle="owl"
+                         data-owl-options='{
+                            "nav": false,
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true
+                                }
+                            }
+                        }'>
+                        <div id="SPBC1" class="product product-4 pdBC">
+
+                        </div>
+
+                        <div id="SPBC2" class="product product-4 pdBC">
+
+                        </div>
+
+                        <div id="SPBC3" class="pdBC product product-4 ">
+
+                        </div>
+
+                        <div id="SPBC4" class="pdBC product product-4 ">
+
+                        </div>
+
+                        <div id="SPBC5" class="pdBC product product-4 ">
+
+                        </div>
+
+                        <div id="SPBC6" class="pdBC product product-4 ">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="container">
+                <div class="heading text-center mb-4">
+                    <h2 class="title">Sản phẩm mới</h2>
+                </div>
+                <div class="owl-carousel owl-simple" data-toggle="owl"
+                     data-owl-options='{
+                            "nav": false,
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true
+                                }
+                            }
+                        }'>
+                    <div id="SPNew1" class="pdNew product product-4">
+
+                    </div>
+
+                    <div id="SPNew2" class="pdNew product product-4">
+
+                    </div>
+
+                    <div id="SPNew3" class="pdNew product product-4">
+
+                    </div>
+
+                    <div id="SPNew4" class="pdNew product product-4">
+
+                    </div>
+
+                    <div id="SPNew5" class="pdNew product product-4">
+
+                    </div>
+
+                    <div id="SPNew6" class="pdNew product product-4">
+
+                    </div>
+                </div>
+
+                <div class="icon-boxes-container bg-transparent">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-rocket"></i>
+                                    </span>
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Free Ship</h3>
+                                        <p>Đơn hàng 100,000 ₫ trở lên</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-rotate-left"></i>
+                                    </span>
+
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Free trả hàng</h3>
+                                        <p>Dưới 30 ngày</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-info-circle"></i>
+                                    </span>
+
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Được giảm giá 20% cho 1 mặt hàng</h3>
+                                        <p>Khi đăng ký</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-life-ring"></i>
+                                    </span>
+
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Hân hạnh hỗ trợ</h3>
+                                        <p>24/7</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <span th:replace="customer/footer :: footer"></span>
+</div>
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+<span th:replace="customer/responsive :: responsive"></span>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+<!-- Plugins JS File -->
+<script th:src="@{/fe/js/jquery.min.js}"></script>
+<script th:src="@{/fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{/fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/fe/js/superfish.min.js}"></script>
+<script th:src="@{/fe/js/owl.carousel.min.js}"></script>
+<script th:src="@{/fe/js/bootstrap-input-spinner.js}"></script>
+<script th:src="@{/fe/js/jquery.magnific-popup.min.js}"></script>
+
+<!-- Main JS File -->
+<script th:src="@{/fe/js/main.js}"></script>
+<script th:src="@{/fe/js/demos/demo-12.js}"></script>
+</body>
+</html>

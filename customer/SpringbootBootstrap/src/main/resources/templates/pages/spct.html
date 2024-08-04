@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/spct.js}"></script>
+
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <div class="page-title">
+        <h3>Sản phẩm chi tiết</h3>
+
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bộ lọc</h4>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form class="row" method="get" style="padding-top: 20px;padding-bottom: 20px" th:action="@{/spct/filter}">
+                        <div class="col-md-12" style="text-align: center;height: 70px">
+                            <div style="display: inline-flex;padding-right: 10px">
+                                <label class="col-form-label">Size: </label>
+                                <select class="form-select" name="kt" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="kt :${listKT}" th:value="${kt.ten}"
+                                            th:text="${kt.ten}"></option>
+
+                                </select>
+                            </div>
+                            <div style="display: inline-flex;padding-left: 10px">
+                                <label class="col-form-label">Color: </label>
+                                <select id="slMS" class="form-select" name="ms" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="ms :${listMS}" th:value="${ms.ten}"
+                                            th:style="'background-color:'+${ms.ten}"> </option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" th:value="${idSP}" name="sp" hidden>
+
+
+                        <div class="col-md-12" style="text-align: center">
+
+                            <div style="display: inline-flex;padding-right: 5px">
+                                <label class="col-form-label">Mã :  </label>
+                                <input type="text" class="form-control" name="keyword"
+                                       placeholder="Nhập mã sản phẩm"
+                                       style="width: 200px;height: 38px;margin-left: 5px">
+                            </div>
+
+                        </div>
+
+
+                        <div style="text-align: center;padding-top: 20px" >
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div style="float: left"><h4 class="card-title">Danh sách sản phẩm chi tiết</h4></div>
+
+
+                    <div style="float: right">
+                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#themSPCT"
+                        ><i data-feather="plus-circle"></i></a>
+                    </div>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive ">
+                        <table class='table table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Mã SPCT</th>
+                                <th>Tên</th>
+                                <th>Kích thước</th>
+                                <th>Màu sắc</th>
+                                <th>Số lượng</th>
+                                <th>Giá bán</th>
+                                <th>Thao tác</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="spct,start :${listSPCT}">
+                                <td th:text="${start.index+1}"></td>
+                                <td th:text="${spct.ma}"></td>
+                                <td th:text="${spct.sanPham.ten}"></td>
+                                <td th:text="${spct.kichThuoc.ten}"></td>
+                                <td>
+                                    <div class="badge" th:style="'background-color: ' + ${spct.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+
+                                    </div>
+                                </td>
+                                <td th:text="${spct.sl}"></td>
+                                <td th:text="${formatHelper.formatCurrency(spct.gia)}+' VNĐ'"></td>
+
+                                </td>
+                                <td>
+                                    <a th:href="@{/spct/viewOne/(id = ${spct.id})}"
+                                       class="btn btn-outline-success uBtn"><i
+                                            data-feather="edit"></i></a>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div style="float: right;margin: 20px">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listSPCT.number-1}}" class="page-link"> < </a>
+                                    </li>
+                                    <li>
+                                        <a th:text="${listSPCT.number+1}" class="page-link"></a>
+
+                                    </li>
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listSPCT.number+1}}" class="page-link"> > </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="formThem">
+        <div class="modal fade" id="themSPCT" tabindex="-1" aria-labelledby="labelThemSPCT" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelThemSPCT"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Thêm sản phẩm chi tiết</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formAddSPCT" th:action="@{/spct/addSPCT}" th:object="${spcta}" method="post"
+                              enctype="multipart/form-data">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <input type="text" id="idSPAdd" th:value="${idSP}" name="idSPAdd" hidden>
+                                        <label class="form-label"><b>Kích thước</b></label>
+
+                                        <select class="form-select" id="vlidKT" name="kichThuocAdd">
+                                            <div th:each="kt:${listKT}">
+                                                <option th:value="${kt.id}" th:text="${kt.ten}"></option>
+                                            </div>
+
+                                        </select>
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Màu sắc</b></label>
+
+                                        <select class="form-select" id="vlidMS" name="mauSacAdd">
+                                            <div th:each="ms:${listMS}">
+                                                <option th:style="'background-color:'+${ms.ten}" th:value="${ms.id}"
+                                                        ></option>
+                                            </div>
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Đơn giá</b></label>
+                                        <input type="text" class="form-control " id="dgAdd" name="donGiaAdd">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Số lượng</b></label>
+                                        <input type="text" class="form-control " id="slAdd" name="soLuongAdd">
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary" id="cfAddBtn">Thêm</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="formUpdate">
+        <div class="modal fade" id="suaSPCT" tabindex="-1" aria-labelledby="labelSuaSPCT" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelSuaSPCT"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Sửa sản phẩm chi tiết</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formUpdSPCT" th:action="@{/spct/updateSPCT}" th:object="${spctu}" method="post"
+                              enctype="multipart/form-data">
+
+                            <div class="row">
+                                <div style="background: white;padding-bottom: 20px">
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <input type="text" id="ktUpd" name="ktUpd" hidden >
+                                        <label class="form-label"><b>Kích thước</b></label>
+                                        <input type="text" th:value="${idSP}" name="idSPUpd" hidden >
+                                        <select class="form-select" id="kichThuocUpd" name="kichThuocUpd" disabled>
+                                            <div th:each="kt:${listKT}">
+                                                <option th:value="${kt.id}" th:text="${kt.ten}"></option>
+                                            </div>
+
+                                        </select>
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <input type="text" id="msUpd" name="msUpd" hidden >
+                                        <label class="form-label"><b>Màu sắc</b></label>
+
+                                        <select class="form-select" id="mauSacUpd" name="mauSacUpd" disabled>
+                                            <div th:each="ms:${listMS}">
+                                                <option th:style="'background-color:'+${ms.ten}" th:value="${ms.id}"
+                                                       ></option>
+                                            </div>
+                                        </select>
+
+                                    </div>
+
+
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Đơn giá</b></label>
+                                        <input type="text" class="form-control " id="donGiaUpd" name="donGiaUpd">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <label class="form-label"><b>Số lượng</b></label>
+                                        <input type="text" class="form-control " id="soLuongUpd"
+                                               name="soLuongUpd">
+
+                                    </div>
+                                    <div class="mb-3" style="padding-top: 20px">
+                                        <div>
+
+                                            <input type="text" id="maSPCTUpd" name="maSPCTUpd" hidden>
+                                            <input type="text" id="tgTao" name="tgTao" hidden>
+                                            <input type="text" id="idSPCTUpd" name="idSPCTUpd" hidden>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button id="cfUpdBtn" type="submit" class="btn btn-primary">Sửa</button>
+                        </form>
+
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/sp.js}"></script>
+    <style>
+        .image-container {
+            position: relative;
+            display: inline-block;
+
+
+        }
+
+        .text-overlay {
+            position: absolute;
+            bottom: 35px;
+            left: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0; /* Ẩn văn bản ban đầu */
+            transition: opacity 0.3s ease;
+
+        }
+        .text-overlay > a {
+
+            color: white; /* Đặt màu văn bản thành đen */
+            text-decoration: none; /* Loại bỏ gạch chân */
+
+        }
+
+        .image-container:hover img {
+            filter: brightness(50%); /* Làm tối ảnh khi hover */
+        }
+
+        .image-container:hover .text-overlay {
+            opacity: 1; /* Hiển thị văn bản khi hover */
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <div class="page-title">
+        <h3>Sản phẩm</h3>
+
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Bộ lọc</h4>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <form class="row" method="get" style="padding-top: 20px;padding-bottom: 20px" th:action="@{/san_pham/filter}">
+                        <div class="col-md-4" style="text-align: center;height: 70px">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Danh mục: </label>
+                                <select class="form-select" name="dm" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="dm :${listDM}" th:value="${dm.id}"
+                                            th:text="${dm.ten}"></option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align: center;">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Thương hiệu: </label>
+                                <select class="form-select" name="th" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option th:each="th :${listTH}" th:value="${th.id}"
+                                            th:text="${th.ten}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align: center">
+                            <div style="display: inline-flex">
+                                <label class="col-form-label">Trạng thái: </label>
+                                <select class="form-select" name="trangThai" style="width: 200px;height: 38px;margin-left: 5px">
+                                    <option value="">Tất cả</option>
+                                    <option value="1">Hoạt động</option>
+                                    <option value="0">Ngừng hoạt động</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: center">
+
+                            <div style="display: inline-flex;padding-right: 5px">
+                                <label class="col-form-label">Mã :  </label>
+                                <input type="text" class="form-control" name="keyword"
+                                       placeholder="Nhập mã sản phẩm"
+                                       style="width: 200px;height: 38px;margin-left: 5px">
+                            </div>
+
+                        </div>
+
+
+                        <div style="text-align: center;padding-top: 20px" >
+                            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div style="float: left"><h4 class="card-title">Danh sách sản phẩm</h4></div>
+                    <div style="float: right">
+                        <a style="margin-right: 10px" class="btn btn-primary" href="/san_pham"><i
+                                data-feather="refresh-cw"></i></a>
+
+                        <a class="btn btn-primary"  href="/them_sp"
+                        ><i data-feather="plus-circle"></i></a>
+                    </div>
+
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive ">
+                        <table class='table table mb-0' id="table1">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Anh</th>
+                                <th>Danh mục</th>
+                                <th>Thương hiệu</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="sp,start :${listSP.content}">
+                                <td th:text="${start.index+1}"></td>
+                                <td th:text="${sp.ma}"></td>
+                                <td th:text="${sp.ten}"></td>
+                                <td>
+                                    <div class="carousel-container" style="height: 100px;width:100px;overflow: hidden">
+                                        <div class="carousel slide" id="carouselExampleIndicators" data-bs-ride="carousel">
+                                            <div class="carousel-inner">
+                                                <div th:each="anh, iterStat : ${mapAnhSanPham[sp.id]}"
+                                                     class="carousel-item"
+                                                     th:classappend="${iterStat.first} ? 'active'">
+                                                    <img th:src="'data:image/jpeg;base64,' + ${base64Image.bytesToBase64(anh.data)}"
+                                                         style="max-height: 100px; max-width: 100px;min-height: 100px; min-width: 100px"
+                                                         class="d-block w-100" alt="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td th:text="${sp.danhMuc.ten}"></td>
+                                <td th:text="${sp.thuongHieu.ten}"></td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                               id="flexSwitchCheckDefault" th:checked="${sp.trangThai}" disabled >
+                                        <label class="form-check-label" for="flexSwitchCheckDefault" ></label>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <a th:href="@{/san_pham/viewOne/(id=${sp.id})}" class="btn btn-outline-primary uBtn" >
+                                        <i data-feather="edit"></i></a>
+                                    <a th:href="@{/spct/viewDetail/{id}(id=${sp.id})}" class="btn btn-outline-info ">
+                                        <i data-feather="eye"></i></a>
+                                    <a th:href="@{/san_pham/viewImage/(idSP=${sp.id})}" class="btn btn-outline-secondary iBtn">
+                                        <i data-feather="image"></i></a>
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div style="float: right;margin: 20px">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listSP.number-1}}" class="page-link"> < </a>
+                                    </li>
+                                    <li>
+                                        <a th:text="${listSP.number+1}" class="page-link"></a>
+
+                                    </li>
+                                    <li class="page-item">
+                                        <a th:href="@{'?p='+${listSP.number+1}}" class="page-link"> > </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="formUpdate">
+        <div class="modal fade" id="suaSP" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 style="color: black" class="modal-title fs-5" id="labelSua"><i
+                                class="fa-solid fa-circle-info"></i>
+                            Sửa sản phẩm</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/san_pham/updateSP}" th:object="${spu}" method="post">
+
+
+                            <div class="row" style="background: white;padding-bottom: 20px">
+                                <div class="col-md-6" style="padding-top: 20px">
+                                    <label ><b id="lbTaoLuc"></b></label>
+                                    <input id="taoLuc" type="text" name="taoLuc"
+                                           hidden>
+
+                                </div>
+                                <div class="col-md-6" style="padding-top: 20px">
+                                    <label ><b id="lbSuaLuc"></b></label>
+
+
+                                </div>
+                                <div class="col-md-6" style="padding-top: 20px">
+                                    <label ><b id="lbTaoBoi"></b></label>
+                                    <input id="taoBoi" type="text" name="taoBoi"
+                                           hidden>
+
+                                </div>
+                                <div class="col-md-6" style="padding-top: 20px">
+                                    <label ><b id="lbSuaBoi"></b></label>
+
+
+                                </div>
+
+                                <div class="mb-3" style="padding-top: 20px">
+                                    <label class="form-label" ><b>Mã </b></label>
+                                    <input id="ma" placeholder="Mã" type="text" name="ma" class="form-control"
+                                           readonly>
+
+                                </div>
+
+                                <div class="mb-3" style="padding-top: 20px">
+                                    <label class="form-label"><b>Tên </b></label>
+                                    <input id="ten" placeholder="tên" type="text" name="ten"
+                                           class="form-control">
+
+                                </div>
+                                <div class="mb-3" style="padding-top: 20px">
+                                    <label class="form-label"><b>Danh mục</b></label>
+
+                                    <select class="form-select" id="danhMuc" name="danhMuc">
+                                        <div th:each="dm:${listDM}">
+                                            <option th:value="${dm.id}" th:text="${dm.ten}"></option>
+                                        </div>
+
+                                    </select>
+                                </div>
+                                <div class="mb-3" style="padding-top: 20px">
+                                    <label class="form-label"><b>Thương hiệu</b></label>
+
+                                    <select class="form-select" id="thuongHieu" name="thuongHieu">
+                                        <div th:each="th:${listTH}">
+                                            <option th:value="${th.id}" th:text="${th.ten}"></option>
+                                        </div>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="mb-3" style="padding-top: 20px">
+                                    <label class="form-label"><b>Trạng thái</b></label>
+                                    <div class="form-check form-switch">
+
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                               id="trangThaiUpdate" name="trangThaiSt"  >
+                                        <label class="form-check-label" for="trangThaiUpdate"></label>
+                                    </div>
+
+                                </div>
+                                <input type="hidden" id="id" name="id">
+
+                            </div>
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Sửa</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="formUpdateImage">
+        <div class="modal fade" id="suaImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h1 style="color: black" class="modal-title fs-5" id="lbsuaImage"><i
+                                    class="fa-solid fa-circle-info"></i>
+                            </h1>
+                        </div>
+                        <div style="float: right;padding-right: 20px">
+                            <form id="formAddImage" >
+                                <a  class="btn btn-outline-warning btn-fecht-input ">Thêm ảnh</i></a>
+                                <input type="file" class="imageIP"   style="display: none" multiple hidden>
+                                <input type="text" id="idSPImg" hidden >
+                            </form>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="background: white;padding-bottom: 20px" id="fillImage">
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

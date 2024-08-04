@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700' rel='stylesheet' type='text/css'>
+    <style>
+        .timeline {
+            min-height: 125px;
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .li {
+            transition: all 200ms ease-in;
+        }
+
+        .timestamp {
+            min-height: 25px;
+            margin-bottom: 20px;
+            padding: 0px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-weight: 100;
+        }
+
+        .status {
+            padding: 0px 40px;
+            display: flex;
+            justify-content: center;
+            border-top: 2px solid #D6DCE0;
+            position: relative;
+            transition: all 200ms ease-in;
+        }
+        .status h5 {
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        .status:before {
+            content: "";
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            position: absolute;
+            top: -15px;
+            left: 42%;
+            transition: all 200ms ease-in;
+        }
+
+        .li.complete .status {
+            border-top: 2px solid #66DC71;
+        }
+        .li.complete .status:before {
+            background-color: #66DC71;
+            border: none;
+            transition: all 200ms ease-in;
+        }
+        .li.complete .status h4 {
+            color: #66DC71;
+        }
+        .li.cancel .status {
+            border-top: 2px solid red;
+        }
+
+        .li.cancel .status:before {
+            background-color: red;
+            border: none;
+            transition: all 200ms ease-in;
+        }
+
+        .li.cancel .status h4 {
+            color: red;
+        }
+
+        @media (min-device-width: 320px) and (max-device-width: 700px) {
+            .timeline {
+                list-style-type: none;
+                display: block;
+            }
+
+            .li {
+                transition: all 200ms ease-in;
+                display: flex;
+                width: inherit;
+            }
+
+            .timestamp {
+                width: 100px;
+            }
+
+            .status:before {
+                left: -8%;
+                top: 30%;
+                transition: all 200ms ease-in;
+            }
+        }
+    </style>
+    <script th:src="@{/js/hdct.js}"></script>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <main class="main" layout:fragment="customer">
+        <div class="page-content">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-md-12 ">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Tiến trình</h4>
+                            </div>
+
+                            <div class="card-body px-0 pb-0">
+                                <ul class="timeline" id="timeline">
+                                    <div th:each="hdtl : ${listHoaDonTL}">
+                                        <li th:class="'li ' + ${hdtl.trangThai==0?'cancel':'complete'}">
+                                            <div class="timestamp" >
+                                                <span class="date" th:text="${hdtl.ngayTao!=null?formatDate.formatDateTime(hdtl.ngayTao):''}"></span>
+                                            </div>
+                                            <div class="status" th:switch="${hdtl.trangThai}">
+                                                <h5 th:case="0" th:text="${hoaDon.hinhThuc==1?'Thất bại':'Đã hủy'}"></h5>
+                                                <h5 th:case="1">Chờ xác nhận</h5>
+                                                <h5 th:case="2">Đang xử lý</h5>
+                                                <h5 th:case="3">Đang vận chuyển</h5>
+                                                <h5 th:case="4">Hoàn thành</h5>
+                                                <h5 th:case="5">Chờ thanh toán</h5>
+                                            </div>
+                                        </li>
+                                    </div>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button th:if="${hoaDon.tinhTrang==3}" id="xacNhan" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#formXacNhan" >Đã nhận hàng</button>
+                <!--    modal xác nhận-->
+                <div class="modal fade" id="formXacNhan" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="formXNTL" th:action="@{/hoa_don/xac_nhan}" method="post">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5">Xác nhận</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="ghiChu">Mô tả</label>
+                                        <textarea class="form-control"  name="ghiChu" id="ghiChu" cols="30" rows="3"></textarea>
+                                        <input type="text" name="idHoaDon" th:value="${hoaDon.idHoaDon}" hidden>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                                    <button type="submit" id="btnXacNhan" class="btn btn-primary">Xác nhận</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <button   id="huy" class="btn btn-danger m-3" data-bs-toggle="modal" data-bs-target="#formHuy" th:if="${hoaDon.tinhTrang!=4&&hoaDon.tinhTrang!=0} " th:text="${hoaDon.tinhTrang==3?'Không nhận hàng':'Hủy'}"></button>
+                <div class="modal fade" id="formHuy" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="formCancelTL" th:action="@{/hoa_don/huy}" method="post">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5">Xác nhận huỷ</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="ghiChuHuy">Lý do</label>
+                                        <textarea class="form-control"  name="ghiChuHuy" id="ghiChuHuy" cols="30" rows="10"></textarea>
+                                        <input type="text"  name="idHoaDon" th:value="${hoaDon.idHoaDon}" hidden>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                                    <button type="submit" id="btnHuy" class="btn btn-primary">Xác nhận</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div><h4 class="card-title">Danh sách sản phẩm</h4></div>
+                            </div>
+                            <div class="card-body px-0 pb-0">
+                                <div class="table-responsive">
+                                    <table class='table mb-0' id="table1">
+                                        <thead>
+                                        <tr>
+
+                                            <th>Sản phẩm</th>
+                                            <th>Số lượng</th>
+                                            <th>Giá</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="hoadonchitiet:${listHoaDonChiTiet}">
+                                            <td class="row">
+                                                <div class="d-inline-block">
+                                                    <img style="max-height: 100px;max-width: 100px;min-height: 100px;min-width: 100px"
+                                                         th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[hoadonchitiet.sanPhamChiTiet.sanPham.id].data)}"
+                                                         alt="Product image">
+                                                </div>
+                                                <div class="d-inline-block" style="padding-left: 10px">
+
+                                                    <div><span th:text="${hoadonchitiet.sanPhamChiTiet.sanPham.ten}"></span></div>
+                                                    <div><span th:text="'size:'+${hoadonchitiet.sanPhamChiTiet.kichThuoc.ten}"></span></div>
+                                                    <div>
+                                                        <p>color:
+                                                            <span class="badge "
+                                                                  th:style="'background-color:'+${hoadonchitiet.sanPhamChiTiet.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+                                                        </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td th:text="${hoadonchitiet.soLuong}"></td>
+                                            <td th:text="${hoadonchitiet!=null?formatHelper.formatCurrency(hoadonchitiet.sanPhamChiTiet.gia*hoadonchitiet.soLuong):''}+' VNĐ'"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="float: right">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                <li class="page-item">
+                                                    <a class="page-link" th:href="@{'?p='+${listHoaDonChiTiet.number-1}}"> < </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" th:text="${listHoaDonChiTiet.number+1}"></a>
+
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" th:href="@{'?p='+${listHoaDonChiTiet.number+1}}"> > </a>
+                                                </li>
+
+                                            </ul>
+                                        </nav>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-7" >
+                        <div>
+                            <h6>Giá trị đơn hàng : </h6>
+                        </div>
+                            <div>
+                                <p>Tổng tiền : <span th:text="${hoaDon!=null?formatHelper.formatCurrency(hoaDon.gia):''}+' VNĐ'"></span></p>
+                            </div>
+                            <div>
+                                <p>Voucher : <span th:text="${hoaDon.phieuGiamGia==null?'':hoaDon.phieuGiamGia.ma}"></span></p>
+                            </div>
+                            <div>
+                                <p>Giá trị giảm : <span th:text="${hoaDon.tienShip==null?formatHelper.formatCurrency(hoaDon.gia-hoaDon.thanhTien):formatHelper.formatCurrency(hoaDon.gia-hoaDon.thanhTien+hoaDon.tienShip)}+' VNĐ'"></span></p>
+                            </div>
+                            <div th:if="${hoaDon.tienShip!=null}">
+                                <p>Giá ship : <span th:text="${formatHelper.formatCurrency(hoaDon.tienShip)}+' VNĐ'"></span></p>
+                            </div>
+                            <div>
+                                <p>Thành tiền : <span style="color: red" th:text="${hoaDon!=null?formatHelper.formatCurrency(hoaDon.thanhTien):''}+' VNĐ'"></span></p>
+                            </div>
+                    </div>
+                    <div class="col-md-5" >
+                        <div>
+                            <h6>Thông tin đặt hàng </h6>
+                        </div>
+                        <div>
+                            <p>Số điện thoại : <span th:text="${hoaDon.sdt}"></span></p>
+                        </div>
+                        <div>
+                            <p>Địa chỉ : <span th:text="${hoaDon.diaChi} +' - '+${hoaDon.phuongXa} +' - '+${hoaDon.quanHuyen}+' - '+${hoaDon.thanhPho}"></span></p>
+                        </div>
+                        <div>
+                            <p>Ghi chú : <span th:text="${hoaDon.ghiChu}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

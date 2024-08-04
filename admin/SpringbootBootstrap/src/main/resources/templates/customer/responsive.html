@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>King Feet-Thương hiệu giày da hàng đầu</title>
+</head>
+<body>
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div>
+
+<div class="mobile-menu-container mobile-menu-light" th:fragment="responsive">
+    <div class="mobile-menu-wrapper">
+        <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+        <form action="#" method="get" class="mobile-search">
+            <label for="mobile-search" class="sr-only">Search</label>
+            <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Bạn cần tìm gì..." required>
+            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+        </form>
+
+        <nav class="mobile-nav">
+            <ul class="mobile-menu">
+                <li class="active">
+                    <a href="index.html">Trang chủ</a>
+                </li>
+                <li>
+                    <a href="danh-muc-san-pham.html">Sản phẩm</a>
+                    <ul>
+                        <li><a href="bang-san-pham.html">Giày lười nam</a></li>
+                        <li><a href="bang-san-pham.html">Giày tây nam</a></li>
+                        <li><a href="bang-san-pham.html">Giày tăng chiều cao</a></li>
+                        <li><a href="bang-san-pham.html">Thắt lưng da cá sấu</a></li>
+                        <li><a href="bang-san-pham.html">Thắt lưng công sở</a></li>
+                        <li><a href="bang-san-pham.html">Ví da bò</a></li>
+                        <li><a href="bang-san-pham.html">Ví da cá sấu</a></li>
+                        <li><a href="bang-san-pham.html">Ví cầm tay</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="sf-with-ul">Giới thiệu</a>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Liên hệ</a></li>
+                        <li><a href="login.html">Đăng ký</a></li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="blog.html">Blog</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="social-icons">
+            <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

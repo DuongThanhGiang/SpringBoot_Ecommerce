@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main-content container-fluid" layout:fragment="content">
+    <h1>Thông Tin Phiếu Giảm Giá</h1>
+    <div class="container pt-5">
+        <div class="mx-auto border border-dark-subtle d-flex">
+            <div class="col-11 col-sm-11 rounded p-5 d-flex">
+                <div class="col-7 col-sm-7 pe-1">
+                    <p th:text="'Mã Voucher: ' + ${phieuGiamGia.ma}"></p>
+                    <p th:text="'Tên Voucher: ' + ${phieuGiamGia.ten}"></p>
+                    <p th:text="'Hạn Sử Dụng: 00:00 ' + ${phieuGiamGia.ngayBatDau} +'- 23:59 '+ ${phieuGiamGia.ngayKetThuc}"></p>
+                    <p th:text="'Giảm: ' + ${phieuGiamGia.giaTriGiam} + ' ' + (${phieuGiamGia.donVi == 1 ? ' %' : ' VNĐ'})"></p>
+                    <p th:text="'Đơn Tối Thiểu: ' + ${phieuGiamGia.giaTriToiThieu} + ' VNĐ - Giảm Tối Đa: ' + ${phieuGiamGia.giaTriGiamToiDa} + ' VNĐ'"></p>
+                    <p th:text="'Số Lượng: ' + ${phieuGiamGia.soLuong}"></p>
+                        <span th:switch="${phieuGiamGia.trangThai}">
+                            <span th:case="1">Trạng Thái: Đang Hoạt Động</span>
+                            <span th:case="2">Trạng Thái: Đã Hết Hạn</span>
+                            <span th:case="3">Trạng Thái: Hết Lượt Sử Dụng</span>
+                            <span th:case="4">Trạng Thái: Đã Hủy</span>
+                            <span th:case="*">Trạng Thái: Đang Hoạt Động</span>
+                        </span>
+                </div>
+                <div class="col-5 col-sm-5 ps-1">
+                    <p th:text="'Mô Tả: ' + ${phieuGiamGia.moTa}"></p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae itaque sit maxime amet aut dicta quasi dolore id exercitationem culpa. Nostrum modi adipisci, repudiandae quaerat temporibus eum! Quo, cum ipsam.
+                </div>
+            </div>
+
+            <div class="col-1 col-sm-1 px-2 py-2">
+                <button class="btn btn-primary rounded-pill p-3" data-bs-toggle="modal" data-bs-target="#voucherModal" style="height: 100%; width: 100%;">Sửa</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="voucherModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Voucher Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form class="mx-auto rounded-lg card p-5"  th:action="@{'/voucher/edit/'+ ${phieuGiamGia.id_pgg}}" th:object="${phieuGiamGia}" method="post">
+                                <input type="hidden" class="form-control" th:field="*{id_pgg}" placeholder="Mã Voucher">
+                            <div class="form row py-2">
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Mã Voucher</label>
+                                    <input type="text" class="form-control" th:field="*{ma}" placeholder="Mã Voucher">
+                                </div>
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Tên Voucher</label>
+                                    <input type="text" class="form-control" th:field="*{ten}" placeholder="Tên Voucher">
+                                </div>
+                            </div>
+                            <div class="form row py-2">
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Giá Trị Giảm</label>
+                                    <input type="text" class="form-control" th:field="*{giaTriGiam}" placeholder="Giá trị giảm">
+                                </div>
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Đơn Vị</label>
+                                    <select name="donVi" id="donVi" th:field="*{donVi}" class="form-control">
+                                        <option value="1">%</option>
+                                        <option value="2">VNĐ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form row py-2">
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Số Lượng</label>
+                                    <input type="number" class="form-control" th:field="*{soLuong}" placeholder="Số Lượng"
+                                           min="1" max="9999" step="1" data-decimals="0"
+                                           required>
+                                </div>
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label>Trạng Thái</label>
+                                    <select name="trangThai" id="trangThai" th:field="*{trangThai}" class="form-control">
+                                        <option value="1">Đang Hoạt Động</option>
+                                        <option value="2">Đã Hết Hạn</option>
+                                        <option value="3">Hết Lượt Sử Dụng</option>
+                                        <option value="4">Đã Xóa</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form row py-2">
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Giá Trị Tối Thiểu</label>
+                                    <input type="text" class="form-control" th:field="*{giaTriToiThieu}" placeholder="Giá Trị Tối Thiểu (VNĐ)">
+                                </div>
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Giá Trị Giảm Tối Đa</label>
+                                    <input type="text" class="form-control" th:field="*{giaTriGiamToiDa}" placeholder="Giá Trị Giảm Tối Đa (VNĐ)">
+                                </div>
+                            </div>
+                            <div class="form row py-2">
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Ngày Bắt Đầu</label>
+                                    <input type="date" th:field="*{ngayBatDau}" class="form-control" >
+                                </div>
+                                <div class="col-6 col-sm-6 form-group">
+                                    <label class="required">Ngày Kết Thúc</label>
+                                    <input type="date" th:field="*{ngayKetThuc}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form row py-2">
+                                <div class="col-12 col-sm-12 form-group">
+                                    <label>Mô Tả</label>
+                                    <Textarea type="text" class="form-control" th:field="*{moTa}" placeholder="Mô Tả..."></Textarea>
+                                </div>
+                            </div>
+                            <div class="text-center pt-5 pb-3">
+                                <button type="submit" class="btn btn-primary rounded p-3 fs-5">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<!--                    <button type="submit" class="btn btn-primary">Save Changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="sidebar" class='active' th:fragment="sidebar"><!--sidebar-->
+    <div class="sidebar-wrapper active">
+        <div style="padding-left: 10%;padding-right: 10%" >
+            <img src="/images/KF.png"  width="100%" height="150px" alt="">
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+
+
+                <li class='sidebar-title'> Menu</li>
+
+
+
+                <li class="sidebar-item active ">
+                    <a href="/home" class='sidebar-link'>
+                        <i data-feather="home" width="20"></i>
+                        <span>Thống kê</span>
+                    </a>
+
+                </li>
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i data-feather="triangle" width="20"></i>
+                        <span>Quản lí giao dịch</span>
+                    </a>
+
+                    <ul class="submenu ">
+
+                        <li>
+                           <a href="/giao_dich">Giao dịch</a>
+                       </li>
+
+                        <li>
+                            <a href="/hoa_don"> Hóa đơn</a>
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i data-feather="feather" width="20"></i>
+                        <span>Quản lí sản phẩm</span>
+                    </a>
+
+                    <ul class="submenu ">
+
+                        <li>
+                            <a href="/san_pham">Sản phẩm</a>
+                        </li>
+
+                        <li>
+                            <a href="/kich_thuoc">Kích thước</a>
+                        </li>
+                        <li>
+                            <a href="/mau_sac">Màu sắc</a>
+                        </li>
+                        <li>
+                            <a href="/thuong_hieu"> Thương hiệu </a>
+                        </li>
+                        <li>
+                            <a href="/danh_muc">Danh mục </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+
+
+
+
+
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i data-feather="user" width="20"></i>
+                        <span>Quản lí tài khoản</span>
+                    </a>
+
+                    <ul class="submenu">
+
+                        <li>
+                            <a href="/khach_hang">Khách hàng</a>
+                        </li>
+
+                        <li>
+                            <a href="/nhan_vien">Nhân viên</a>
+                        </li>
+
+
+                    </ul>
+
+                </li>
+
+
+
+
+                <li class="sidebar-item  ">
+                    <a href="/voucher" class='sidebar-link'>
+                        <i data-feather="tag" width="20"></i>
+                        <span>Quản lí voucher</span>
+                    </a>
+
+                </li>
+
+
+
+
+
+
+
+
+            </ul>
+        </div>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+    </div>
+</div>
+</body>
+</html>
